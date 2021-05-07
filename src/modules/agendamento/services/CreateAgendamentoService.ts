@@ -39,12 +39,12 @@ export default class CreateAgendamentoService {
          provider_id
       );
 
-      console.log(agendaDodia);
+      const findServices = await this.serviceRepository.findUniqService(
+         provider_id,
+         service
+      );
 
-      // const services = await this.serviceRepository.findUniqService(
-      //    provider_id,
-      //    service
-      // );
+      console.log(findServices);
 
       const agendamento = this.agendamentoRepository.create({
          provider_id,

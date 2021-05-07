@@ -11,6 +11,20 @@ export default class ServiceRepository implements IServiceRepository {
       this.ormRepository = getRepository(Service);
    }
 
+   public async findUniqService(
+      provider_id: string,
+      service: string
+   ): Promise<Service | undefined> {
+      const find = await this.ormRepository.findOne({
+         where: {
+            provider_id,
+            service,
+         },
+      });
+
+      return find;
+   }
+
    public async listService(provider_id: string): Promise<Service[]> {
       const find = await this.ormRepository.find({
          where: { provider_id },
@@ -31,23 +45,5 @@ export default class ServiceRepository implements IServiceRepository {
       await this.ormRepository.save(service);
 
       return service;
-   }
-
-   public async findUniqService(service: string): Promise<Service | undefined> {
-      const findService = await this.ormRepository.findOne({
-         where: { service },
-      });
-
-      return findService;
-   }
-
-   public async findUniqProvider(
-      provider_id: string
-   ): Promise<Service | undefined> {
-      const findService = await this.ormRepository.findOne({
-         where: { provider_id },
-      });
-
-      return findService;
    }
 }

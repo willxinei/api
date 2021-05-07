@@ -6,8 +6,8 @@ export default class CreateServiçoController {
    public async create(req: Request, res: Response): Promise<Response> {
       try {
          const createService = container.resolve(CreateServiçoService);
-         const { provider_id, service, description, time, value } = req.body;
-         // const provider_id = req.user.id;
+         const { service, description, time, value } = req.body;
+         const provider_id = req.user.id;
          const services = await createService.execute({
             provider_id,
             service,

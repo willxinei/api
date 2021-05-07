@@ -3,7 +3,9 @@ import Service from "../infra/typeorm/entities/Service";
 
 export default interface IServiceRepository {
    create(data: IServiceDTO): Promise<Service>;
-   findUniqService(service: string): Promise<Service | undefined>;
-   findUniqProvider(provider_id: string): Promise<Service | undefined>;
+   findUniqService(
+      provider_id: string,
+      service: string
+   ): Promise<Service | undefined>;
    listService(provider_id: string): Promise<Service[]>;
 }

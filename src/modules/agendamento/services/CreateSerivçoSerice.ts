@@ -25,12 +25,14 @@ export default class CreateServiçoService {
       time,
       value,
    }: IRequest): Promise<Service> {
-      const ser = await this.serviceRepository.findUniqService(service);
-      const pro = await this.serviceRepository.findUniqProvider(provider_id);
+      const ser = await this.serviceRepository.findUniqService(
+         provider_id,
+         service
+      );
 
-      console.log(pro);
+      console.log(ser);
 
-      if (pro && ser) {
+      if (ser) {
          throw new AppError("Serviço ja existe");
       }
 
