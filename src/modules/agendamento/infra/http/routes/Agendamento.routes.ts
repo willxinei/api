@@ -5,10 +5,12 @@ import AgendamentoController from "../controllers/AgendamentoController";
 import FindTodosAgendamentos from "../controllers/FindTodosAgendamenosController";
 import FindTodosAgendamentosPrestadorController from "../controllers/FindTodosAgendamentoProviderController";
 import FindTodosAgendamentosUserController from "../controllers/FindTodosAgendamentoUsersController";
+import ListHorariosDisponivelController from "../controllers/ListHorariosDisponivelController";
 
 const agendaRoute = Router();
 
 const agendamentocontroller = new AgendamentoController();
+const lisstHorariosControllr = new ListHorariosDisponivelController();
 const listarAgentadamento = new FindTodosAgendamentos();
 const listUsersController = new FindTodosAgendamentosUserController();
 const listPrestadorController = new FindTodosAgendamentosPrestadorController();
@@ -38,5 +40,8 @@ agendaRoute.get("/me", listUsersController.list);
 
 // LIstar todos agendamentos do prestador
 agendaRoute.get("/me/prestador", listPrestadorController.list);
+
+// Listar os horarios disponiveis
+agendaRoute.get("/h/horarios", lisstHorariosControllr.list);
 
 export default agendaRoute;

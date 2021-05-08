@@ -23,27 +23,27 @@ export default class CreateAgendamentos1620298663678
 
                {
                   name: "from",
-                  type: "varchar",
+                  type: "integer",
                },
 
                {
                   name: "at",
-                  type: "varchar",
+                  type: "integer",
                },
 
                {
                   name: "dia",
-                  type: "varchar",
+                  type: "integer",
                },
 
                {
                   name: "mes",
-                  type: "varchar",
+                  type: "integer",
                },
 
                {
                   name: "ano",
-                  type: "varchar",
+                  type: "integer",
                },
 
                {

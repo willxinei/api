@@ -33,10 +33,10 @@ export default class Agendamentos {
    service: string;
 
    @Column()
-   from: string;
+   from: number;
 
    @Column()
-   at: string;
+   at: number;
 
    @Column()
    dia: number;

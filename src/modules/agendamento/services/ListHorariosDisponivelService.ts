@@ -5,7 +5,6 @@ import { isAfter, getMinutes, format } from "date-fns";
 import { inject, injectable } from "tsyringe";
 import { IAgendamentoRepository } from "../repositories/IAgendamentoRespository";
 import IServiceRepository from "../repositories/IServiceRepository";
-import convertHours from "./utils/ConvertHourToMinutes";
 
 interface IRequest {
    provider_id: string;
@@ -18,9 +17,9 @@ interface IRequest {
 type Ihorarios = Array<{}>;
 
 @injectable()
-export default class DiasDisponivelService {
+export default class ListHorarioDiponilvelService {
    constructor(
-      @inject("AppointmentRepository")
+      @inject("AgendamentoRepository")
       private agendamentoRepository: IAgendamentoRepository,
 
       @inject("ServiceRepository")
@@ -34,6 +33,11 @@ export default class DiasDisponivelService {
       mes,
       ano,
    }: IRequest): Promise<Ihorarios> {
+      function convertHours(time: string) {
+         const [hour, minutes] = time.split(":").map(Number);
+         const timeInMinutes = hour * 60 + minutes;
+         return timeInMinutes;
+      }
       const horarios = [];
 
       const findSercies = await this.serviceRepository.findUniqService(
@@ -55,17 +59,17 @@ export default class DiasDisponivelService {
       );
 
       const horaInicio = appointments.map((h) => {
-         const horaReduzida = convertHours(h.from);
-         return horaReduzida;
+         // const horaReduzida = convertHours(h.from);
+         return h.from;
       });
       horaInicio.sort((a, b) => {
          return a - b;
       });
 
       const horafim = appointments.map((h) => {
-         const horaReduzida = convertHours(h.at);
+         // const horaReduzida = convertHours(h.at);
 
-         return horaReduzida;
+         return h.at;
       });
       horafim.sort((a, b) => {
          return a - b;

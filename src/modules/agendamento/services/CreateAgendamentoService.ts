@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import INotification from "@modules/notifications/repositories/INotificationsReposiotry";
 import ICacheProvider from "@shared/container/providers/CashProvider/models/ICachProvider";
 import AppError from "@shared/errors/AppError";
@@ -6,17 +7,22 @@ import { inject, injectable } from "tsyringe";
 import Agendamentos from "../infra/typeorm/entities/Agendamento";
 import { IAgendamentoRepository } from "../repositories/IAgendamentoRespository";
 import IServiceRepository from "../repositories/IServiceRepository";
-import convertHours from "./utils/ConvertHourToMinutes";
 
 interface IRequest {
    provider_id: string;
    user_id: string;
    service: string;
    from: string;
-   at: string;
+   at: number;
    dia: number;
    mes: number;
    ano: number;
+}
+
+function convertHours(time: string) {
+   const [hour, minutes] = time.split(":").map(Number);
+   const timeInMinutes = hour * 60 + minutes;
+   return timeInMinutes;
 }
 
 @injectable()
@@ -57,47 +63,33 @@ export default class CreateAgendamentoService {
 
       const tempo = findServices?.time as string;
 
-      console.log(findServices?.time);
       const hour = convertHours(from);
-      const endHour = convertHours(tempo) + hour;
+      const endHour = convertHours(tempo) + hour - 1;
 
+      console.log(findServices?.time);
       if (!findServices) {
          throw new AppError("esse servico nao existe");
       }
 
-      const hourFrom: string[] = [];
-      const hourtAt: string[] = [];
-
-      const f = agendaDodia.map((h) => {
-         const conver = convertHours(h.from);
-         return conver;
+      const horarioDoDia = agendaDodia.map((h) => {
+         return h.from;
       });
 
       const horaFinal: number[] = [];
       agendaDodia.map((hou) => {
-         const convert = convertHours(hou.at);
-         horaFinal.push(convert);
+         horaFinal.push(hou.at);
       });
 
       if (findServices.service === service) {
-         const minIn = format(new Date(2000, 2, 2, 0, hour, 0, 0), "HH:mm");
-         const horaA = format(
-            new Date(2000, 2, 2, 0, endHour - 1, 0, 0),
-            "HH:mm"
-         );
-
-         hourFrom.push(minIn);
-         hourtAt.push(horaA);
-
-         const inLeng = f.length - 1;
+         const inLeng = horarioDoDia.length - 1;
          let indice = -1;
          const horarioJaAgendados: number[] = [];
 
          while (indice < inLeng) {
             indice += 1;
-            while (f[indice] < horaFinal[indice]) {
-               f[indice] += 1;
-               horarioJaAgendados.push(f[indice]);
+            while (horarioDoDia[indice] < horaFinal[indice]) {
+               horarioDoDia[indice] += 1;
+               horarioJaAgendados.push(horarioDoDia[indice]);
             }
          }
 
@@ -133,8 +125,8 @@ export default class CreateAgendamentoService {
       const appointment = this.agendamentoRepository.create({
          provider_id,
          user_id,
-         from: hourFrom[0],
-         at: hourtAt[0],
+         from: hour,
+         at: endHour,
          dia,
          mes,
          ano,
