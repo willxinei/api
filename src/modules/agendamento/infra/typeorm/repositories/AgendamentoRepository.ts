@@ -64,7 +64,10 @@ export default class AgendamentoRepository implements IAgendamentoRepository {
    public async findTodosAgendamentosUser(
       user_id: string
    ): Promise<Agendamentos[]> {
-      const agenda = await this.ormRepository.find({ where: { user_id } });
+      const agenda = await this.ormRepository.find({
+         where: { user_id },
+         relations: ["provider"],
+      });
 
       return agenda;
    }
@@ -72,7 +75,10 @@ export default class AgendamentoRepository implements IAgendamentoRepository {
    public async findTodosAgendamentosPrestador(
       provider_id: string
    ): Promise<Agendamentos[]> {
-      const agenda = await this.ormRepository.find({ where: { provider_id } });
+      const agenda = await this.ormRepository.find({
+         where: { provider_id },
+         relations: ["user"],
+      });
 
       return agenda;
    }
