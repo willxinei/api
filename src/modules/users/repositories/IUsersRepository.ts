@@ -1,3 +1,4 @@
+import IFindAllProvidersDTO from "../dtos/IFindAllProvidersDTO";
 import IUsersDTO from "../dtos/UsersDTO";
 import User from "../infra/typeorm/entities/Users";
 
@@ -6,4 +7,5 @@ export default interface IUsersRepository {
    findByEmail(email: string): Promise<User | undefined>;
    findById(id: string): Promise<User | undefined>;
    save(user: User): Promise<User>;
+   findTodosPrestadores(data: IFindAllProvidersDTO): Promise<User[]>;
 }

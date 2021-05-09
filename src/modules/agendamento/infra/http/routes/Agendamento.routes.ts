@@ -6,6 +6,8 @@ import FindTodosAgendamentos from "../controllers/FindTodosAgendamenosController
 import FindTodosAgendamentosPrestadorController from "../controllers/FindTodosAgendamentoProviderController";
 import FindTodosAgendamentosUserController from "../controllers/FindTodosAgendamentoUsersController";
 import ListHorariosDisponivelController from "../controllers/ListHorariosDisponivelController";
+import FindTodosPrestadoreController from "../controllers/FindTodosPrestadoresController";
+import DeleteAgendamentoContrller from "../controllers/DeleteAgendamentoController";
 
 const agendaRoute = Router();
 
@@ -14,6 +16,8 @@ const lisstHorariosControllr = new ListHorariosDisponivelController();
 const listarAgentadamento = new FindTodosAgendamentos();
 const listUsersController = new FindTodosAgendamentosUserController();
 const listPrestadorController = new FindTodosAgendamentosPrestadorController();
+const listTodosPrestadores = new FindTodosPrestadoreController();
+const deleteAgendamentoControler = new DeleteAgendamentoContrller();
 agendaRoute.use(midlewareAuth);
 
 // Criar um agendamento
@@ -41,7 +45,11 @@ agendaRoute.get("/me", listUsersController.list);
 // LIstar todos agendamentos do prestador
 agendaRoute.get("/me/prestador", listPrestadorController.list);
 
+agendaRoute.get("/me/prestador/list", listTodosPrestadores.list);
+
 // Listar os horarios disponiveis
 agendaRoute.get("/h/horarios", lisstHorariosControllr.list);
+
+agendaRoute.delete("/:id/agendamento", deleteAgendamentoControler.delet);
 
 export default agendaRoute;

@@ -1,3 +1,4 @@
+import IFindAllProvidersDTO from "@modules/users/dtos/IFindAllProvidersDTO";
 import IUsersDTO from "@modules/users/dtos/UsersDTO";
 import IUsersRepository from "@modules/users/repositories/IUsersRepository";
 import { getRepository, Repository } from "typeorm";
@@ -8,6 +9,13 @@ export default class UsersRepository implements IUsersRepository {
 
    constructor() {
       this.ormrepository = getRepository(User);
+   }
+
+   public async findTodosPrestadores({
+      prestador,
+   }: IFindAllProvidersDTO): Promise<User[]> {
+      const find = await this.ormrepository.find({ where: { prestador } });
+      return find;
    }
 
    public async create(data: IUsersDTO): Promise<User> {
