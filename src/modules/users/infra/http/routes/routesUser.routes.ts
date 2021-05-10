@@ -1,3 +1,4 @@
+import upload from "@config/upload";
 import AuthenticateUserService from "@modules/users/services/AuthenticateUserSercice";
 import midlewareAuth from "@shared/infra/http/midleWares/midlewareAuth";
 import { celebrate, Joi, Segments } from "celebrate";
@@ -18,7 +19,7 @@ const updateAvatercontrller = new UpdateAvatercontrller();
 const resetPassword = new ResetPasswordController();
 const forgot = new ForgotPasswordController();
 
-const img = multer();
+const img = multer(upload);
 
 UserRoute.post(
    "/user",
@@ -38,7 +39,7 @@ UserRoute.post("/session", sessionController.create);
 UserRoute.get("/profile", midlewareAuth, updateProfile.show);
 UserRoute.put("/profile", midlewareAuth, updateProfile.update);
 
-UserRoute.post(
+UserRoute.patch(
    "/avatar",
    midlewareAuth,
    img.single("avatar"),

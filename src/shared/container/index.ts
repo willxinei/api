@@ -6,6 +6,7 @@ import IUsersRepository from "@modules/users/repositories/IUsersRepository";
 import UserRepository from "@modules/users/infra/typeorm/repositories/UsersRepository";
 import { container } from "tsyringe";
 import "./providers";
+import "@modules/users/providers";
 import INotification from "@modules/notifications/repositories/INotificationsReposiotry";
 import NotificationsRepository from "@modules/notifications/infra/typeorm/repositories/NotificationRepository";
 import IUserTokenRepository from "@modules/users/repositories/IUserTokenRepository";

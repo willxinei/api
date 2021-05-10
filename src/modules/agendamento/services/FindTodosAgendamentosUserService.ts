@@ -29,10 +29,6 @@ export default class FindTodosAgendamentosUserSerice {
          throw new AppError("sem agendamento");
       }
 
-      function sortAgenda(a: any, b: any) {
-         return a - b;
-      }
-
       // const [hour, minutes] = time.split(":").map(Number);
 
       const agenda = agendamento.sort((a, b) => {

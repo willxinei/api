@@ -19,6 +19,14 @@ export default class FindTodosAgendamentosPrestadorSerice {
          throw new AppError("sem agendamento");
       }
 
-      return agendamento;
+      const agenda = agendamento.sort((a, b) => {
+         return a.from - b.from;
+      });
+
+      agenda.sort((a, b) => {
+         return a.dia - b.dia;
+      });
+
+      return agenda;
    }
 }
