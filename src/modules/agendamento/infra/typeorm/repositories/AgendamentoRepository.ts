@@ -17,6 +17,7 @@ export default class AgendamentoRepository implements IAgendamentoRepository {
          provider_id: data.provider_id,
          user_id: data.user_id,
          from: data.from,
+         user_name: data.user_name,
          at: data.at,
          dia: data.dia,
          mes: data.mes,

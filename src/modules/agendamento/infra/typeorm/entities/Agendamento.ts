@@ -1,11 +1,14 @@
 /* eslint-disable camelcase */
 import User from "@modules/users/infra/typeorm/entities/Users";
+import { Expose } from "class-transformer";
 import {
    Column,
    CreateDateColumn,
    Entity,
    JoinColumn,
+   JoinTable,
    ManyToOne,
+   OneToOne,
    PrimaryGeneratedColumn,
    UpdateDateColumn,
 } from "typeorm";
@@ -33,6 +36,13 @@ export default class Agendamentos {
    service: string;
 
    @Column()
+   user_name: string;
+
+   // @ManyToOne(() => User)
+   // @JoinColumn({ name: "avatar" })
+   // avatar: string;
+
+   @Column()
    from: number;
 
    @Column()
@@ -52,4 +62,11 @@ export default class Agendamentos {
 
    @UpdateDateColumn()
    updated_at: Date;
+
+   // @Expose({ name: "avatar_url" })
+   // getAvatarUrl(): string | null {
+   //    return this.avatar_url
+   //       ? `${process.env.APP_API_URL}file/${this.avatar_url}`
+   //       : null;
+   // }
 }

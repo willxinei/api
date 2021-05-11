@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 import INotification from "@modules/notifications/repositories/INotificationsReposiotry";
+import IUsersRepository from "@modules/users/repositories/IUsersRepository";
 import ICacheProvider from "@shared/container/providers/CashProvider/models/ICachProvider";
 import AppError from "@shared/errors/AppError";
 import { format, isBefore } from "date-fns";
@@ -13,6 +14,7 @@ interface IRequest {
    user_id: string;
    service: string;
    from: string;
+   user_name?: string;
    at: number;
    dia: number;
    mes: number;
@@ -34,6 +36,9 @@ export default class CreateAgendamentoService {
       @inject("ServiceRepository")
       private serviceRepository: IServiceRepository,
 
+      @inject("UserRepository")
+      private UserRepository: IUsersRepository,
+
       @inject("NotificationRepository")
       private notificationRepository: INotification,
 
@@ -45,6 +50,7 @@ export default class CreateAgendamentoService {
       provider_id,
       user_id,
       service,
+      user_name,
       from,
       dia,
       mes,
@@ -60,6 +66,12 @@ export default class CreateAgendamentoService {
          provider_id,
          service
       );
+
+      const findUsername = await this.UserRepository.findById(user_id);
+
+      if (!findUsername) {
+         throw new AppError("nao encontrado");
+      }
 
       const tempo = findServices?.time as string;
 
@@ -127,6 +139,7 @@ export default class CreateAgendamentoService {
          user_id,
          from: hour,
          at: endHour,
+         user_name: findUsername.name,
          dia,
          mes,
          ano,

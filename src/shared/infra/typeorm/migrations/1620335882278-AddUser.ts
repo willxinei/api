@@ -15,6 +15,13 @@ export default class AddUser1620335882278 implements MigrationInterface {
             isNullable: true,
          })
       );
+      await queryRunner.addColumn(
+         "agendamentos",
+         new TableColumn({
+            name: "user_name",
+            type: "varchar",
+         })
+      );
 
       await queryRunner.createForeignKey(
          "agendamentos",
@@ -31,6 +38,7 @@ export default class AddUser1620335882278 implements MigrationInterface {
 
    public async down(queryRunner: QueryRunner): Promise<void> {
       await queryRunner.dropForeignKey("agendamentos", "AppointmentProvider");
+      await queryRunner.dropColumn("agendamentos", "user_name");
       await queryRunner.dropColumn("agendamentos", "user_id");
    }
 }

@@ -10,6 +10,7 @@ export default class FindTodosAgendamentosPrestadorController {
          const provider_id = req.user.id;
 
          const ag = await agenda.execute(provider_id);
+         await req.io.emit("ag", ag);
          return res.json(classToClass(ag));
       } catch (err) {
          return res.json(err.message).status(400);
