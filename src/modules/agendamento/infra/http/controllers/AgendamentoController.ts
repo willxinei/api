@@ -9,6 +9,8 @@ export default class AgendamentoController {
          const {
             provider_id,
             user_name,
+            telefone,
+            avatar,
             from,
             service,
             dia,
@@ -24,6 +26,8 @@ export default class AgendamentoController {
             user_id,
             from,
             user_name,
+            telefone,
+            avatar,
             at: from,
             dia,
             mes,

@@ -18,6 +18,8 @@ export default class AgendamentoRepository implements IAgendamentoRepository {
          user_id: data.user_id,
          from: data.from,
          user_name: data.user_name,
+         telefone: data.telefone,
+         avatar: data.avatar,
          at: data.at,
          dia: data.dia,
          mes: data.mes,

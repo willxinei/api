@@ -15,6 +15,8 @@ interface IRequest {
    service: string;
    from: string;
    user_name?: string;
+   telefone: number;
+   avatar: string;
    at: number;
    dia: number;
    mes: number;
@@ -140,6 +142,8 @@ export default class CreateAgendamentoService {
          from: hour,
          at: endHour,
          user_name: findUsername.name,
+         telefone: findUsername.telefone,
+         avatar: findUsername.avatar,
          dia,
          mes,
          ano,

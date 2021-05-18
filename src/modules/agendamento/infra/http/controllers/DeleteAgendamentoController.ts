@@ -8,6 +8,8 @@ export default class DeleteAgendamentoContrller {
 
       const { id } = re.params;
 
+      re.io.emit("delet", id);
+
       await geteAgendamento.delete(id);
 
       return res.status(204).send();

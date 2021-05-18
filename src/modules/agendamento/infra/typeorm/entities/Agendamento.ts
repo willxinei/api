@@ -38,9 +38,11 @@ export default class Agendamentos {
    @Column()
    user_name: string;
 
-   // @ManyToOne(() => User)
-   // @JoinColumn({ name: "avatar" })
-   // avatar: string;
+   @Column()
+   telefone: number;
+
+   @Column()
+   avatar: string;
 
    @Column()
    from: number;
@@ -63,10 +65,10 @@ export default class Agendamentos {
    @UpdateDateColumn()
    updated_at: Date;
 
-   // @Expose({ name: "avatar_url" })
-   // getAvatarUrl(): string | null {
-   //    return this.avatar_url
-   //       ? `${process.env.APP_API_URL}file/${this.avatar_url}`
-   //       : null;
-   // }
+   @Expose({ name: "avatar_url" })
+   getAvatarUrl(): string | null {
+      return this.avatar
+         ? `${process.env.APP_API_URL}file/${this.avatar}`
+         : null;
+   }
 }
