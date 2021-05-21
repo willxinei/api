@@ -52,7 +52,6 @@ export default class CreateAgendamentoService {
       provider_id,
       user_id,
       service,
-      user_name,
       from,
       dia,
       mes,

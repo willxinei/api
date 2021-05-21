@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import User from "@modules/users/infra/typeorm/entities/Users";
 import { Expose } from "class-transformer";
+import Users from "@modules/users/infra/typeorm/entities/Users";
 import {
    Column,
    CreateDateColumn,
@@ -21,16 +21,16 @@ export default class Agendamentos {
    @Column()
    provider_id: string;
 
-   @ManyToOne(() => User)
+   @ManyToOne(() => Users)
    @JoinColumn({ name: "provider_id" })
-   provider: User;
+   provider: Users;
 
    @Column()
    user_id: string;
 
-   @ManyToOne(() => User)
+   @ManyToOne(() => Users)
    @JoinColumn({ name: "user_id" })
-   user: User;
+   user: Users;
 
    @Column()
    service: string;

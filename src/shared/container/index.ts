@@ -11,6 +11,8 @@ import INotification from "@modules/notifications/repositories/INotificationsRep
 import NotificationsRepository from "@modules/notifications/infra/typeorm/repositories/NotificationRepository";
 import IUserTokenRepository from "@modules/users/repositories/IUserTokenRepository";
 import UserTokenRepository from "@modules/users/infra/typeorm/repositories/UserTokenRepository";
+import IBloqueioRepository from "@modules/agendamento/repositories/IBloqueioRepository";
+import BloqueioRepository from "@modules/agendamento/infra/typeorm/repositories/BloqueioRepository";
 
 container.registerSingleton<IAgendamentoRepository>(
    "AgendamentoRepository",
@@ -20,6 +22,11 @@ container.registerSingleton<IAgendamentoRepository>(
 container.registerSingleton<IServiceRepository>(
    "ServiceRepository",
    ServiceRepository
+);
+
+container.registerSingleton<IBloqueioRepository>(
+   "BloqueioRepostory",
+   BloqueioRepository
 );
 
 container.registerSingleton<IUsersRepository>("UserRepository", UserRepository);

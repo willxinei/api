@@ -4,6 +4,7 @@ import { isAfter, getMinutes, format } from "date-fns";
 
 import { inject, injectable } from "tsyringe";
 import { IAgendamentoRepository } from "../repositories/IAgendamentoRespository";
+import IBloqueioRepository from "../repositories/IBloqueioRepository";
 import IServiceRepository from "../repositories/IServiceRepository";
 
 interface IRequest {
@@ -23,7 +24,10 @@ export default class ListHorarioDiponilvelService {
       private agendamentoRepository: IAgendamentoRepository,
 
       @inject("ServiceRepository")
-      private serviceRepository: IServiceRepository
+      private serviceRepository: IServiceRepository,
+
+      @inject("BloqueioRepostory")
+      private bloquioRepository: IBloqueioRepository
    ) {}
 
    public async exec({
@@ -38,7 +42,7 @@ export default class ListHorarioDiponilvelService {
          const timeInMinutes = hour * 60 + minutes;
          return timeInMinutes;
       }
-      const horarios = [];
+      const horarios: number[] = [];
 
       const findSercies = await this.serviceRepository.findUniqService(
          provider_id,
@@ -151,9 +155,40 @@ export default class ListHorarioDiponilvelService {
          return a - b;
       });
 
-      const hor = horarios.map((h) => {
+      const findBloqueio = await this.bloquioRepository.findBloqueio(
+         provider_id,
+         dia,
+         mes
+      );
+
+      const bloqueio: number[] = [];
+      if (findBloqueio) {
+         let from = convertHours(findBloqueio.from) - 1;
+         const at = convertHours(findBloqueio.at) - 1;
+         while (from < at) {
+            from += 1;
+            bloqueio.push(from);
+         }
+      }
+
+      const horariosBloqueados = horarios.filter((h) => {
+         const bk = bloqueio.find((d) => {
+            return h === d;
+         });
+         return h !== bk;
+      });
+
+      const hor = horariosBloqueados.map((h) => {
          const hourCorrent = new Date(Date.now());
+
          const event = new Date(ano, mes - 1, dia, 0, h, 0);
+         const block = bloqueio.find((b) => {
+            return b === h;
+         });
+         const bk = horarios.find((c) => {
+            return c !== h;
+         });
+
          const formated = format(event, "HH:mm");
          let week = format(event, "i");
          if (week === "7") {
@@ -161,7 +196,7 @@ export default class ListHorarioDiponilvelService {
          } else {
             week = true;
          }
-         console.log(event);
+
          return {
             hour: formated,
             avaliable: isAfter(event, hourCorrent) && week,
