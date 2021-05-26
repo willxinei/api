@@ -178,16 +178,12 @@ export default class ListHorarioDiponilvelService {
          return h !== bk;
       });
 
+      console.log(horariosBloqueados);
+
       const hor = horariosBloqueados.map((h) => {
          const hourCorrent = new Date(Date.now());
 
          const event = new Date(ano, mes - 1, dia, 0, h, 0);
-         const block = bloqueio.find((b) => {
-            return b === h;
-         });
-         const bk = horarios.find((c) => {
-            return c !== h;
-         });
 
          const formated = format(event, "HH:mm");
          let week = format(event, "i");

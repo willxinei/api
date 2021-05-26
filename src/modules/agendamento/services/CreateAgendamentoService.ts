@@ -67,6 +67,7 @@ export default class CreateAgendamentoService {
          provider_id,
          service
       );
+      console.log(findServices?.time);
 
       const findUsername = await this.UserRepository.findById(user_id);
 
@@ -79,7 +80,6 @@ export default class CreateAgendamentoService {
       const hour = convertHours(from);
       const endHour = convertHours(tempo) + hour - 1;
 
-      console.log(findServices?.time);
       if (!findServices) {
          throw new AppError("esse servico nao existe");
       }
