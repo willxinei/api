@@ -48,7 +48,7 @@ UserRoute.patch(
    updateAvatercontrller.update
 );
 
-UserRoute.post("/forgot", midlewareAuth, forgot.create);
-UserRoute.post("/reset", midlewareAuth, resetPassword.create);
+UserRoute.post("/forgot", forgot.create);
+UserRoute.post("/reset", resetPassword.create);
 
 export default UserRoute;
