@@ -32,5 +32,36 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: ".,!node_modules"
           target: "~/app/api"
+      
+      - name: Instalando as dependencias no servidor
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/app/api
+            yarn
+
+      - name: Iniciando migration
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/app/api
+            ./node_modules/.bin/typeorm migration:run
+            
+      - name: Restartando o servidor
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: pm2 restart dai-nails
 
 
