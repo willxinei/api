@@ -21,7 +21,7 @@ export default class UserController {
 
          return res.json(user);
       } catch (err) {
-         return res.json(err);
+         return res.json(err.message);
       }
    }
 
