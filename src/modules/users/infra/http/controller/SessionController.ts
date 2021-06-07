@@ -16,7 +16,7 @@ export default class SessionController {
 
          return res.json({ user, token });
       } catch (error) {
-         return res.status(400).json({ err: error.message });
+         return res.json(error);
       }
    }
 }
