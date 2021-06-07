@@ -53,7 +53,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/app/api
-            ./node_modules/.bin/typeorm migration:run
+            yarn type migration:run
             
       - name: Restartando o servidor
         uses: appleboy/ssh-action@master
