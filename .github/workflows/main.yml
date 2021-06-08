@@ -44,7 +44,7 @@ jobs:
             cd ~/app/api
             yarn
             ./node_modules/.bin/typeorm migration:run
-            pm2 restart dai-nails
+            pm2 restart dai-nails 
 
 
 
