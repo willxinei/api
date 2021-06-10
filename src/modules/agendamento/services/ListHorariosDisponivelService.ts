@@ -84,7 +84,7 @@ export default class ListHorarioDiponilvelService {
       if (findSercies.service === service) {
          const hora: number[] = [];
 
-         const indice = -1;
+         let indice = -1;
          while (indice < inicioLeng) {
             indice += 1;
             const inicio = horaInicio[indice + 1] + 1;
