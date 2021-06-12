@@ -2,14 +2,14 @@
    {
       "type": "postgres",
       "host": "localhost",
-      "port": "35432",
+      "port": "5432",
       "username": "postgres",
-      "password": "camaleao@123",
+      "password": "camaleao",
       "database": "Daisy",
-      "entities": ["./dist/modules/**/infra/typeorm/entities/*.js"],
-      "migrations": ["./dist/shared/infra/typeorm/migrations/*.js"],
+      "entities": ["./src/modules/**/infra/typeorm/entities/*.ts"],
+      "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
       "cli": {
-         "migrationsDir": "./dist/shared/infra/typeorm/migrations"
+         "migrationsDir": "./src/shared/infra/typeorm/migrations"
       }
    }
 

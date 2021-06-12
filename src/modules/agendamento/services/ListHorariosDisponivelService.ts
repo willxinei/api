@@ -178,8 +178,6 @@ export default class ListHorarioDiponilvelService {
          return h !== bk;
       });
 
-      console.log(horariosBloqueados);
-
       const hor = horariosBloqueados.map((h) => {
          const hourCorrent = new Date(Date.now());
 
@@ -198,6 +196,7 @@ export default class ListHorarioDiponilvelService {
             avaliable: isAfter(event, hourCorrent) && week,
          };
       });
+      console.log(hor);
 
       return hor;
    }
