@@ -10,5 +10,11 @@ const listController = new FindServicecontroller();
 // Create Serviço
 serviceRoute.post("/service", midlewareAuth, createServiceController.create);
 
+serviceRoute.patch(
+   "/service/update",
+   midlewareAuth,
+   createServiceController.update
+);
+
 serviceRoute.get("/:provider_id/list", midlewareAuth, listController.create);
 export default serviceRoute;

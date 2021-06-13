@@ -8,4 +8,5 @@ export default interface IServiceRepository {
       service: string
    ): Promise<Service | undefined>;
    listService(provider_id: string): Promise<Service[]>;
+   save(service: Service): Promise<Service>;
 }

@@ -1,6 +1,5 @@
 import { IServiceDTO } from "@modules/agendamento/dtos/IServiceDTO";
 import IServiceRepository from "@modules/agendamento/repositories/IServiceRepository";
-import AppError from "@shared/errors/AppError";
 import { getRepository, Repository } from "typeorm";
 import Service from "../entities/Service";
 
@@ -45,5 +44,9 @@ export default class ServiceRepository implements IServiceRepository {
       await this.ormRepository.save(service);
 
       return service;
+   }
+
+   public async save(service: Service): Promise<Service> {
+      return this.ormRepository.save(service);
    }
 }
