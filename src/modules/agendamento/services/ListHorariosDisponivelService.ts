@@ -141,6 +141,8 @@ export default class ListHorarioDiponilvelService {
          return a - b;
       });
 
+      console.log(horarios);
+
       const findBloqueio = await this.bloquioRepository.findBloqueio(
          provider_id,
          dia,
@@ -165,7 +167,7 @@ export default class ListHorarioDiponilvelService {
       });
 
       const hor = horariosBloqueados.map((h) => {
-         const hourCorrent = new Date(Date.now());
+         const hourCorrent = new Date(Date.now()).setHours(-3);
 
          const event = new Date(ano, mes - 1, dia, 0, h, 0);
 
