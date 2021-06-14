@@ -17,6 +17,9 @@ interface IUploadsConfg {
       disk: {
          storage: {};
       };
+      aws: {
+         bucket: string;
+      };
    };
 }
 export default {
@@ -39,5 +42,8 @@ export default {
 
    config: {
       disk: {},
+      aws: {
+         bucket: "dai-nails",
+      },
    },
 } as IUploadsConfg;

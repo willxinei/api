@@ -2,6 +2,7 @@ import upload from "@config/upload";
 import fs from "fs";
 import path from "path";
 import aws, { S3 } from "aws-sdk";
+import * as mime from "mime";
 import IStorageProvider from "../models/IStorageProviders";
 
 class S3StoreageProvider implements IStorageProvider {
@@ -16,16 +17,21 @@ class S3StoreageProvider implements IStorageProvider {
    public async saveFile(file: string): Promise<string> {
       const originalPah = path.resolve(upload.tmpFolder, file);
 
-      const fileContent = await fs.promises.readFile(originalPah, {
-         encoding: "utf-8",
-      });
+      const ContentType = mime.getType(originalPah);
+
+      if (!ContentType) {
+         throw new Error("erro");
+      }
+
+      const fileContent = await fs.promises.readFile(originalPah);
 
       this.client
          .putObject({
-            Bucket: "app-com",
+            Bucket: "dai-nails",
             Key: file,
             ACL: "public-read",
             Body: fileContent,
+            ContentType,
          })
          .promise();
 
@@ -35,7 +41,7 @@ class S3StoreageProvider implements IStorageProvider {
    public async deleteFile(file: string): Promise<void> {
       await this.client
          .deleteObject({
-            Bucket: "app-com",
+            Bucket: upload.config.aws.bucket,
             Key: file,
          })
          .promise();

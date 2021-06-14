@@ -135,20 +135,6 @@ export default class ListHorarioDiponilvelService {
                horarios.push(hormin);
             }
          }
-
-         // const eachDay = Array.from(
-         //    { length: 1140 - 780 },
-         //    (_, index) => index + 780,
-         // );
-
-         // eachDay.splice(eachDay.indexOf(horaInicio[0]), time + 1);
-
-         // const cont = 0;
-
-         // for (let i = -1; i < eachDay.length - 1; ) {
-         //    i += 1;
-         //    console.log(horaInicio[i]);
-         // }
       }
 
       horarios.sort((a, b) => {

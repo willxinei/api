@@ -67,7 +67,6 @@ export default class CreateAgendamentoService {
          provider_id,
          service
       );
-      console.log(findServices?.time);
 
       const findUsername = await this.UserRepository.findById(user_id);
 
