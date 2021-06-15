@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import AppError from "@shared/errors/AppError";
-import { isAfter, getMinutes, format } from "date-fns";
+import { isAfter, getMinutes, format, toDate } from "date-fns";
+import ptBR from "date-fns/esm/locale/pt-BR/index.js";
 
 import { inject, injectable } from "tsyringe";
 import { IAgendamentoRepository } from "../repositories/IAgendamentoRespository";
@@ -168,6 +169,8 @@ export default class ListHorarioDiponilvelService {
 
       const hor = horariosBloqueados.map((h) => {
          const hourCorrent = new Date(Date.now());
+         hourCorrent.setMinutes(-(3 * 60));
+         console.log(toDate(hourCorrent));
 
          const event = new Date(ano, mes - 1, dia, 0, h, 0);
 
@@ -184,7 +187,6 @@ export default class ListHorarioDiponilvelService {
             avaliable: isAfter(event, hourCorrent) && week,
          };
       });
-      console.log(hor);
 
       return hor;
    }
