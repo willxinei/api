@@ -123,8 +123,9 @@ export default class CreateAgendamentoService {
       }
 
       const date = new Date(ano, mes - 1, dia, 0, hour);
+      const dateNow = new Date(Date.now()).setMinutes(-(3 * 60));
 
-      if (isBefore(date, Date.now())) {
+      if (isBefore(date, dateNow)) {
          throw new AppError(
             "Você não pode agendar um horario em horas ja passadas"
          );

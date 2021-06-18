@@ -39,7 +39,7 @@ export default class AgendamentoController {
 
          return res.json(classToClass(agendamento));
       } catch (err) {
-         return res.json(err.message).status(401);
+         return res.json(err).status(401);
       }
    }
 }
