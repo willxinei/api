@@ -142,8 +142,6 @@ export default class ListHorarioDiponilvelService {
          return a - b;
       });
 
-      console.log(horarios);
-
       const findBloqueio = await this.bloquioRepository.findBloqueio(
          provider_id,
          dia,
