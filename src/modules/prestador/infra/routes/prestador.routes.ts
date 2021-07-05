@@ -1,0 +1,67 @@
+import upload from "@config/upload";
+import midlewareAuth from "@shared/infra/http/midleWares/midlewareAuth";
+import { Joi, Segments, celebrate } from "celebrate";
+
+import { Router } from "express";
+import multer from "multer";
+import PrestadorController from "../controllers/PrestadorController";
+import ForgotPasswordController from "../controllers/SendMailPrestadorController";
+import SessionPrestadorController from "../controllers/SessionPrestadorController";
+import UpdateAvatercontrller from "../controllers/UpateAvatarController";
+
+const prestadorRoute = Router();
+const img = multer(upload.multer);
+
+const prestadorControler = new PrestadorController();
+const sessionController = new SessionPrestadorController();
+const forgotController = new ForgotPasswordController();
+const avatarController = new UpdateAvatercontrller();
+
+//* */ Show profile *//
+prestadorRoute.get("/profile", midlewareAuth, prestadorControler.show);
+
+//* */ Create *//
+prestadorRoute.post(
+   "/",
+   celebrate({
+      [Segments.BODY]: {
+         nome: Joi.string().required(),
+         email: Joi.string().required(),
+         telefone: Joi.number().required(),
+         senha: Joi.string().required(),
+         work_init: Joi.string().required(),
+         work_and: Joi.string().required(),
+         funcao: Joi.string().required().min(6),
+      },
+   }),
+   prestadorControler.create
+);
+
+prestadorRoute.post("/session", sessionController.create);
+prestadorRoute.post("/forgot", forgotController.create);
+
+prestadorRoute.put(
+   "/update",
+   celebrate({
+      [Segments.BODY]: {
+         nome: Joi.string().required(),
+         email: Joi.string().required(),
+         telefone: Joi.number().required(),
+         senha: Joi.string().required(),
+         work_init: Joi.string().required(),
+         work_and: Joi.string().required(),
+         funcao: Joi.string().required().min(6),
+      },
+   }),
+   midlewareAuth,
+   prestadorControler.update
+);
+
+prestadorRoute.patch(
+   "/avatar",
+   midlewareAuth,
+   img.single("avatar"),
+   avatarController.update
+);
+
+export default prestadorRoute;

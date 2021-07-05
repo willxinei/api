@@ -25,11 +25,10 @@ UserRoute.post(
    "/user",
    celebrate({
       [Segments.BODY]: {
-         name: Joi.string().required(),
+         nome: Joi.string().required(),
          email: Joi.string().required(),
          telefone: Joi.number().required(),
-         password: Joi.string().required().min(6),
-         prestador: Joi.boolean().required(),
+         senha: Joi.string().required().min(6),
       },
    }),
    userController.create

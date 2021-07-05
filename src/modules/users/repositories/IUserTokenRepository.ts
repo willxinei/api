@@ -1,6 +1,6 @@
-import UserToken from "../infra/typeorm/entities/UserToken";
+import { user_tokens } from "@prisma/client";
 
 export default interface IUserTokenRepository {
-   generate(user_id: string): Promise<UserToken>;
-   findByToken(token: string): Promise<UserToken | undefined>;
+   generate(user_id: string): Promise<user_tokens>;
+   findByToken(token: string): Promise<user_tokens | null>;
 }

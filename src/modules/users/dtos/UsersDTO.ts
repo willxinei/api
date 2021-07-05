@@ -1,7 +1,7 @@
 export default interface IUsersDTO {
-   name: string;
+   nome: string;
    email: string;
    telefone: number;
-   password: string;
+   senha: string;
    prestador: boolean;
 }

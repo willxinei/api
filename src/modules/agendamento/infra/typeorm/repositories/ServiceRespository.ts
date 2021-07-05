@@ -1,20 +1,17 @@
+import { PrismaClient, Services } from "@prisma/client";
 import { IServiceDTO } from "@modules/agendamento/dtos/IServiceDTO";
 import IServiceRepository from "@modules/agendamento/repositories/IServiceRepository";
 import { getRepository, Repository } from "typeorm";
 import Service from "../entities/Service";
 
 export default class ServiceRepository implements IServiceRepository {
-   private ormRepository: Repository<Service>;
-
-   constructor() {
-      this.ormRepository = getRepository(Service);
-   }
+   private prisma = new PrismaClient();
 
    public async findUniqService(
       provider_id: string,
       service: string
-   ): Promise<Service | undefined> {
-      const find = await this.ormRepository.findOne({
+   ): Promise<Services | null> {
+      const find = await this.prisma.services.findFirst({
          where: {
             provider_id,
             service,
@@ -24,29 +21,25 @@ export default class ServiceRepository implements IServiceRepository {
       return find;
    }
 
-   public async listService(provider_id: string): Promise<Service[]> {
-      const find = await this.ormRepository.find({
+   public async listService(provider_id: string): Promise<Services[]> {
+      const find = await this.prisma.services.findMany({
          where: { provider_id },
       });
 
       return find;
    }
 
-   public async create(data: IServiceDTO): Promise<Service> {
-      const service = this.ormRepository.create({
-         provider_id: data.provider_id,
-         description: data.description,
-         value: data.value,
-         time: data.time,
-         service: data.service,
+   public async create(data: IServiceDTO): Promise<Services> {
+      const service = this.prisma.services.create({
+         data: {
+            provider_id: data.provider_id,
+            description: data.description,
+            value: data.value,
+            time: data.time,
+            service: data.service,
+         },
       });
 
-      await this.ormRepository.save(service);
-
       return service;
-   }
-
-   public async save(service: Service): Promise<Service> {
-      return this.ormRepository.save(service);
    }
 }

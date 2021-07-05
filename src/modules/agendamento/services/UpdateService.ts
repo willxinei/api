@@ -1,7 +1,7 @@
+import { Services } from "@prisma/client";
+import { Decimal } from "@prisma/client/runtime";
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
-import { IServiceDTO } from "../dtos/IServiceDTO";
-import Service from "../infra/typeorm/entities/Service";
 import IServiceRepository from "../repositories/IServiceRepository";
 
 interface IRequest {
@@ -9,7 +9,7 @@ interface IRequest {
    service: string;
    description: string;
    time: string;
-   value: number;
+   value: Decimal;
 }
 @injectable()
 export default class UpdateServices {
@@ -24,7 +24,7 @@ export default class UpdateServices {
       description,
       time,
       value,
-   }: IRequest): Promise<Service> {
+   }: IRequest): Promise<Services> {
       const ser = await this.serviceRepository.findUniqService(
          provider_id,
          service
@@ -39,6 +39,6 @@ export default class UpdateServices {
       ser.value = value;
       ser.description = description;
 
-      return this.serviceRepository.save(ser);
+      return ser;
    }
 }

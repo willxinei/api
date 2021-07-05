@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import "reflect-metadata";
 import "express-async-errors";
-import "@shared/infra/typeorm";
+// import "@shared/infra/typeorm";
 import "@shared/container";
 
 import express, { NextFunction, Request, Response } from "express";

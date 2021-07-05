@@ -1,5 +1,5 @@
+import { Services } from "@prisma/client";
 import { inject, injectable } from "tsyringe";
-import Service from "../infra/typeorm/entities/Service";
 import IServiceRepository from "../repositories/IServiceRepository";
 
 interface IRequest {
@@ -12,7 +12,7 @@ export default class FindServiçoService {
       private serviceRepository: IServiceRepository
    ) {}
 
-   public async execute({ provider_id }: IRequest): Promise<Service[]> {
+   public async execute({ provider_id }: IRequest): Promise<Services[]> {
       const find = await this.serviceRepository.listService(provider_id);
 
       return find;

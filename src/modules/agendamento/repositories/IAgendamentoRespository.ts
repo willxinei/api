@@ -1,16 +1,21 @@
 /* eslint-disable camelcase */
+import { Agendamento } from "@prisma/client";
 import { ICreateAgendamentoDTO } from "../dtos/ICreateAgendamentoDTO";
-import Agendamentos from "../infra/typeorm/entities/Agendamento";
 
 export interface IAgendamentoRepository {
-   create(data: ICreateAgendamentoDTO): Promise<Agendamentos>;
+   create(data: ICreateAgendamentoDTO): Promise<Agendamento>;
+
    findAgenndamentosDoDia(
       dia: number,
       mes: number,
       provider_id: string
-   ): Promise<Agendamentos[]>;
+   ): Promise<Agendamento[]>;
+
    delete(id: string): Promise<void>;
-   findTodosAgendamentos(): Promise<Agendamentos[]>;
-   findTodosAgendamentosUser(user_id: string): Promise<Agendamentos[]>;
-   findTodosAgendamentosPrestador(provider_id: string): Promise<Agendamentos[]>;
+
+   findTodosAgendamentos(): Promise<Agendamento[]>;
+
+   findTodosAgendamentosUser(user_id: string): Promise<Agendamento[]>;
+
+   findTodosAgendamentosPrestador(provider_id: string): Promise<Agendamento[]>;
 }

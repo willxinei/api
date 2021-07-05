@@ -1,6 +1,6 @@
-import ICreateNotificationDTO from '../dtos/ICreateNotificationDTO';
-import Notification from '../infra/typeorm/entities/Notification';
+import { notification } from "@prisma/client";
+import ICreateNotificationDTO from "../dtos/ICreateNotificationDTO";
 
 export default interface INotification {
-   create(data: ICreateNotificationDTO): Promise<Notification>;
+   create(data: ICreateNotificationDTO): Promise<notification>;
 }

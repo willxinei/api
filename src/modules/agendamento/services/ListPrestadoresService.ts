@@ -1,5 +1,5 @@
-import User from "@modules/users/infra/typeorm/entities/Users";
 import IUsersRepository from "@modules/users/repositories/IUsersRepository";
+import { Users } from "@prisma/client";
 import ICacheProvider from "@shared/container/providers/CashProvider/models/ICachProvider";
 import { classToClass } from "class-transformer";
 import { inject, injectable } from "tsyringe";
@@ -18,8 +18,8 @@ export default class ListPrestadoresService {
       private cacheProvider: ICacheProvider
    ) {}
 
-   public async execute({ user_id }: IRequest): Promise<User[]> {
-      let users = await this.cacheProvider.recover<User[]>(
+   public async execute({ user_id }: IRequest): Promise<Users[]> {
+      let users = await this.cacheProvider.recover<Users[]>(
          `providers-list:${user_id}`
       );
 

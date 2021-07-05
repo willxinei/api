@@ -1,7 +1,6 @@
+import { Services } from "@prisma/client";
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
-import { IServiceDTO } from "../dtos/IServiceDTO";
-import Service from "../infra/typeorm/entities/Service";
 import IServiceRepository from "../repositories/IServiceRepository";
 
 interface IRequest {
@@ -24,13 +23,11 @@ export default class CreateServiçoService {
       description,
       time,
       value,
-   }: IRequest): Promise<Service> {
+   }: IRequest): Promise<Services> {
       const ser = await this.serviceRepository.findUniqService(
          provider_id,
          service
       );
-
-      console.log(ser);
 
       if (ser) {
          throw new AppError("Serviço ja existe");

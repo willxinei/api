@@ -1,4 +1,4 @@
-import bloqueio from "../infra/typeorm/entities/Bloqueio";
+import { bloqueio } from "@prisma/client";
 
 export default interface IBloqueioRepository {
    create(
@@ -8,9 +8,10 @@ export default interface IBloqueioRepository {
       dia: number,
       mes: number
    ): Promise<bloqueio>;
+
    findBloqueio(
       provider_id: string,
       dia: number,
       mes: number
-   ): Promise<bloqueio | undefined>;
+   ): Promise<bloqueio | null>;
 }

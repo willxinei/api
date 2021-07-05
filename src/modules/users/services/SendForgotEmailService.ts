@@ -40,14 +40,14 @@ class SendForgotPasswordEmailService {
 
       await this.mailProvider.sendMail({
          to: {
-            name: user.name,
+            name: user.nome,
             email: user.email,
          },
          subject: "[DaisyNails] Recuperaçao de senha",
          templateData: {
             file: forgotPassword,
             variables: {
-               name: user.name,
+               name: user.nome,
                token,
                link: `${process.env.APP_WEB_URL}/reset_password?token=${token}`,
             },

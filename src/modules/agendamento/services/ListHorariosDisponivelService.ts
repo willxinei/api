@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/ban-types */
 import AppError from "@shared/errors/AppError";
 import { isAfter, getMinutes, format, toDate } from "date-fns";
@@ -38,23 +39,35 @@ export default class ListHorarioDiponilvelService {
       mes,
       ano,
    }: IRequest): Promise<Ihorarios> {
+      const horarios: number[] = [];
+
       function convertHours(time: string) {
          const [hour, minutes] = time.split(":").map(Number);
          const timeInMinutes = hour * 60 + minutes;
          return timeInMinutes;
       }
-      const horarios: number[] = [];
+
+      function rangeHorario(start: number, stop: number) {
+         stop = stop === undefined ? start : stop;
+         start = stop === start ? 1 : start;
+
+         const length = stop - start + 1;
+
+         const mapFn = (_: number, i: number) => start + i;
+
+         const horarios = Array.from({ length }, mapFn);
+      }
 
       const findSercies = await this.serviceRepository.findUniqService(
          provider_id,
          service
       );
 
-      if (findSercies === undefined) {
+      if (!findSercies) {
          throw new AppError("Esse serviço nao existe");
       }
 
-      const tempo = convertHours(findSercies.time);
+      const tempo = convertHours(findSercies?.time);
       const time = getMinutes(new Date(2000, 2, 2, 10, tempo - 1, 0, 0));
 
       const appointments = await this.agendamentoRepository.findAgenndamentosDoDia(
@@ -63,11 +76,12 @@ export default class ListHorarioDiponilvelService {
          provider_id
       );
 
-      const horaInicio = appointments.map((h) => {
-         // const horaReduzida = convertHours(h.from);
+      console.log(horarios);
+
+      const horaStartAgenda = appointments.map((h) => {
          return h.from;
       });
-      horaInicio.sort((a, b) => {
+      horaStartAgenda.sort((a, b) => {
          return a - b;
       });
 
@@ -80,7 +94,7 @@ export default class ListHorarioDiponilvelService {
          return a - b;
       });
 
-      const inicioLeng = horaInicio.length - 1;
+      const inicioLeng = horaStartAgenda.length - 1;
 
       if (findSercies.service === service) {
          const hora: number[] = [];
@@ -88,7 +102,7 @@ export default class ListHorarioDiponilvelService {
          let indice = -1;
          while (indice < inicioLeng) {
             indice += 1;
-            const inicio = horaInicio[indice + 1] + 1;
+            const inicio = horaStartAgenda[indice + 1] + 1;
             let fim = horafim[indice];
             while (fim < inicio) {
                fim += 1;
@@ -98,6 +112,8 @@ export default class ListHorarioDiponilvelService {
             }
          }
 
+         rangeHorario(480, 660);
+
          let indCont = -tempo;
          while (indCont < hora[hora.length - 1]) {
             indCont += tempo;
@@ -106,24 +122,24 @@ export default class ListHorarioDiponilvelService {
             }
          }
 
-         if (horaInicio[0] === undefined) {
-            let conte = 780 - tempo;
+         if (horaStartAgenda[0] === undefined) {
+            let conte = 480 - tempo;
             while (conte < 1140) {
                conte += tempo;
                horarios.push(conte);
             }
          }
 
-         if (horaInicio[0] > 780) {
-            let con = 780 - tempo;
+         if (horaStartAgenda[0] > 780) {
+            let con = 480 - tempo;
             const or: number[] = [];
-            const horaMI = horaInicio[0] - tempo;
+            const horaMI = horaStartAgenda[0] - tempo;
             while (con < horaMI) {
                con += tempo;
                or.push(con);
             }
             or.filter((h) => {
-               if (h + time < horaInicio[0]) {
+               if (h + time < horaStartAgenda[0]) {
                   horarios.push(h);
                }
             });
@@ -168,7 +184,6 @@ export default class ListHorarioDiponilvelService {
       const hor = horariosBloqueados.map((h) => {
          const hourCorrent = new Date(Date.now());
          hourCorrent.setMinutes(-(3 * 60));
-         console.log(toDate(hourCorrent));
 
          const event = new Date(ano, mes - 1, dia, 0, h, 0);
 

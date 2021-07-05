@@ -1,16 +1,16 @@
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
-import User from "../infra/typeorm/entities/Users";
+import { Users } from "@prisma/client";
 import IUsersRepository from "../repositories/IUsersRepository";
 import IHashProvider from "../providers/HashProvider/models/IHashProvider";
 
 interface IRequest {
    user_id: string;
-   name: string;
+   nome: string;
    email: string;
    telefone: number;
    old_password?: string;
-   password?: string;
+   senha?: string;
 }
 
 @injectable()
@@ -25,12 +25,12 @@ class UpdateProfileService {
 
    public async execute({
       user_id,
-      name,
+      nome,
       email,
       telefone,
-      password,
+      senha,
       old_password,
-   }: IRequest): Promise<User> {
+   }: IRequest): Promise<Users> {
       const user = await this.userRepository.findById(user_id);
 
       if (!user) {
@@ -43,27 +43,27 @@ class UpdateProfileService {
          throw new AppError("E-mail ja esta em uso");
       }
 
-      user.name = name;
+      user.nome = nome;
       user.email = email;
       user.telefone = telefone;
 
-      if (password && !old_password) {
+      if (senha && !old_password) {
          throw new AppError("voce precisa informar sua senha antiga");
       }
 
-      if (password && old_password) {
+      if (senha && old_password) {
          const checkOld = await this.hashProvider.compareHah(
             old_password,
-            user.password
+            user.senha
          );
 
          if (!checkOld) {
             throw new AppError("Senha antiga nao confere");
          }
-         user.password = await this.hashProvider.generateHah(password);
+         user.senha = await this.hashProvider.generateHah(senha);
       }
 
-      return this.userRepository.save(user);
+      return user;
    }
 }
 

@@ -3,17 +3,17 @@ import { compare } from "bcryptjs";
 import { inject, injectable } from "tsyringe";
 import { sign } from "jsonwebtoken";
 import auth from "@config/auth";
-import User from "../infra/typeorm/entities/Users";
+import { Users } from "@prisma/client";
 import IUsersRepository from "../repositories/IUsersRepository";
 
 interface IResponse {
-   user: User;
+   user: Users;
    token: string;
 }
 
 interface IRequest {
    email: string;
-   password: string;
+   senha: string;
 }
 @injectable()
 export default class AuthenticateUserService {
@@ -22,14 +22,14 @@ export default class AuthenticateUserService {
       private userRepository: IUsersRepository
    ) {}
 
-   public async execute({ email, password }: IRequest): Promise<IResponse> {
+   public async execute({ email, senha }: IRequest): Promise<IResponse> {
       const user = await this.userRepository.findByEmail(email);
 
       if (!user) {
          throw new AppError("email incorreto");
       }
 
-      const compareSenhaa = await compare(password, user.password);
+      const compareSenhaa = await compare(senha, user.senha);
 
       if (!compareSenhaa) {
          throw new AppError("senha incorreta");

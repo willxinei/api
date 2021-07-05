@@ -7,7 +7,7 @@ import IHashProvider from "../providers/HashProvider/models/IHashProvider";
 
 interface IRequest {
    token: string;
-   password: string;
+   senha: string;
 }
 
 @injectable()
@@ -23,14 +23,14 @@ class ResetPasswordService {
       private hashProvider: IHashProvider
    ) {}
 
-   public async execute({ token, password }: IRequest): Promise<void> {
+   public async execute({ token, senha }: IRequest): Promise<void> {
       const usertoken = await this.userToken.findByToken(token);
 
       if (!usertoken) {
          throw new AppError("token do usuario nao existe");
       }
 
-      const user = await this.userRepository.findById(usertoken.user_id);
+      const user = await this.userRepository.findById(usertoken.id);
 
       if (!user) {
          throw new AppError("usuario nao existe");
@@ -43,9 +43,7 @@ class ResetPasswordService {
          throw new AppError("Token expirado");
       }
 
-      user.password = await this.hashProvider.generateHah(password);
-
-      await this.userRepository.save(user);
+      user.senha = await this.hashProvider.generateHah(senha);
    }
 }
 

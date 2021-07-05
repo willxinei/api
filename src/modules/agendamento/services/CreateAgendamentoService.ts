@@ -1,11 +1,12 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable array-callback-return */
 import INotification from "@modules/notifications/repositories/INotificationsReposiotry";
 import IUsersRepository from "@modules/users/repositories/IUsersRepository";
+import { Agendamento } from "@prisma/client";
 import ICacheProvider from "@shared/container/providers/CashProvider/models/ICachProvider";
 import AppError from "@shared/errors/AppError";
 import { format, isBefore } from "date-fns";
 import { inject, injectable } from "tsyringe";
-import Agendamentos from "../infra/typeorm/entities/Agendamento";
 import { IAgendamentoRepository } from "../repositories/IAgendamentoRespository";
 import IServiceRepository from "../repositories/IServiceRepository";
 
@@ -14,9 +15,6 @@ interface IRequest {
    user_id: string;
    service: string;
    from: string;
-   user_name?: string;
-   telefone: number;
-   avatar: string;
    at: number;
    dia: number;
    mes: number;
@@ -56,7 +54,7 @@ export default class CreateAgendamentoService {
       dia,
       mes,
       ano,
-   }: IRequest): Promise<Agendamentos> {
+   }: IRequest): Promise<Agendamento> {
       const agendaDodia = await this.agendamentoRepository.findAgenndamentosDoDia(
          dia,
          mes,
@@ -74,14 +72,14 @@ export default class CreateAgendamentoService {
          throw new AppError("nao encontrado");
       }
 
-      const tempo = findServices?.time as string;
-
-      const hour = convertHours(from);
-      const endHour = convertHours(tempo) + hour - 1;
-
       if (!findServices) {
          throw new AppError("esse servico nao existe");
       }
+
+      const tempo = findServices.time as string;
+
+      const hour = convertHours(from);
+      const endHour = convertHours(tempo) + hour - 1;
 
       const horarioDoDia = agendaDodia.map((h) => {
          return h.from;
@@ -140,9 +138,6 @@ export default class CreateAgendamentoService {
          user_id,
          from: hour,
          at: endHour,
-         user_name: findUsername.name,
-         telefone: findUsername.telefone,
-         avatar: findUsername.avatar,
          dia,
          mes,
          ano,

@@ -1,6 +1,6 @@
+import { Agendamento } from "@prisma/client";
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
-import Agendamentos from "../infra/typeorm/entities/Agendamento";
 import { IAgendamentoRepository } from "../repositories/IAgendamentoRespository";
 
 @injectable()
@@ -10,7 +10,7 @@ export default class FindTodosAgendamentosPrestadorSerice {
       private agendamentoRepository: IAgendamentoRepository
    ) {}
 
-   public async execute(provider_id: string): Promise<Agendamentos[]> {
+   public async execute(provider_id: string): Promise<Agendamento[]> {
       const agendamento = await this.agendamentoRepository.findTodosAgendamentosPrestador(
          provider_id
       );

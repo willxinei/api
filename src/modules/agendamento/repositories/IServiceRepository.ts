@@ -1,12 +1,13 @@
+import { Services } from "@prisma/client";
 import { IServiceDTO } from "../dtos/IServiceDTO";
-import Service from "../infra/typeorm/entities/Service";
 
 export default interface IServiceRepository {
-   create(data: IServiceDTO): Promise<Service>;
+   create(data: IServiceDTO): Promise<Services>;
+
    findUniqService(
       provider_id: string,
       service: string
-   ): Promise<Service | undefined>;
-   listService(provider_id: string): Promise<Service[]>;
-   save(service: Service): Promise<Service>;
+   ): Promise<Services | null>;
+
+   listService(provider_id: string): Promise<Services[]>;
 }

@@ -1,6 +1,6 @@
+import { Users } from "@prisma/client";
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
-import User from "../infra/typeorm/entities/Users";
 import IUsersRepository from "../repositories/IUsersRepository";
 
 interface IRequest {
@@ -14,13 +14,13 @@ export default class ShowProfileService {
       private userRepository: IUsersRepository
    ) {}
 
-   public async execute({ user_id }: IRequest): Promise<User> {
+   public async execute({ user_id }: IRequest): Promise<Users> {
       const user = await this.userRepository.findById(user_id);
 
       if (!user) {
          throw new AppError("Usuario nao existe");
       }
 
-      return this.userRepository.save(user);
+      return user;
    }
 }

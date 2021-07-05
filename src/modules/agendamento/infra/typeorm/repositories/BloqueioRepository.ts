@@ -1,13 +1,9 @@
+import { bloqueio, PrismaClient } from "@prisma/client";
 import IBloqueioRepository from "@modules/agendamento/repositories/IBloqueioRepository";
 import { getRepository, Repository } from "typeorm";
-import Bloqueio from "../entities/Bloqueio";
 
 export default class BloqueioRepository implements IBloqueioRepository {
-   private ormRepository: Repository<Bloqueio>;
-
-   constructor() {
-      this.ormRepository = getRepository(Bloqueio);
-   }
+   private prisma = new PrismaClient();
 
    public async create(
       provider_id: string,
@@ -15,18 +11,18 @@ export default class BloqueioRepository implements IBloqueioRepository {
       at: string,
       dia: number,
       mes: number
-   ): Promise<Bloqueio> {
-      const create = this.ormRepository.create({
-         provider_id,
-         at,
-         from,
-         dia,
-         mes,
+   ): Promise<bloqueio> {
+      const bloc = await this.prisma.bloqueio.create({
+         data: {
+            provider_id,
+            at,
+            from,
+            dia,
+            mes,
+         },
       });
 
-      await this.ormRepository.save(create);
-
-      return create;
+      return bloc;
    }
 
    public async findBloqueio(
@@ -34,7 +30,7 @@ export default class BloqueioRepository implements IBloqueioRepository {
       dia: number,
       mes: number
    ): Promise<Bloqueio | undefined> {
-      const find = await this.ormRepository.findOne({
+      const find = await this.prisma.findOne({
          where: {
             provider_id,
             dia,

@@ -1,7 +1,7 @@
+import { Agendamento } from "@prisma/client";
 import AppError from "@shared/errors/AppError";
 import { format, getDate } from "date-fns";
 import { inject, injectable } from "tsyringe";
-import Agendamentos from "../infra/typeorm/entities/Agendamento";
 import { IAgendamentoRepository } from "../repositories/IAgendamentoRespository";
 
 type Ihorarios = Array<{
@@ -20,7 +20,7 @@ export default class FindTodosAgendamentosUserSerice {
       private agendamentoRepository: IAgendamentoRepository
    ) {}
 
-   public async execute(user_id: string): Promise<Agendamentos[]> {
+   public async execute(user_id: string): Promise<Agendamento[]> {
       const agendamento = await this.agendamentoRepository.findTodosAgendamentosUser(
          user_id
       );

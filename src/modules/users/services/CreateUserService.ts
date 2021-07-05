@@ -1,8 +1,8 @@
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
 import { hash } from "bcryptjs";
+import { Users } from "@prisma/client";
 import IUsersDTO from "../dtos/UsersDTO";
-import User from "../infra/typeorm/entities/Users";
 import IUsersRepository from "../repositories/IUsersRepository";
 
 @injectable()
@@ -13,24 +13,24 @@ class CrateUserService {
    ) {}
 
    public async execute({
-      name,
+      nome,
       email,
       telefone,
-      password,
+      senha,
       prestador,
-   }: IUsersDTO): Promise<User> {
+   }: IUsersDTO): Promise<Users> {
       const findUser = await this.userrepository.findByEmail(email);
 
       if (findUser) {
          throw new AppError("Email ja existe");
       }
 
-      const hashd = await hash(password, 8);
+      const hashd = await hash(senha, 8);
       const user = await this.userrepository.create({
-         name,
+         nome,
          email,
          telefone,
-         password: hashd,
+         senha: hashd,
          prestador,
       });
 
