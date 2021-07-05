@@ -36,7 +36,7 @@ let ResetPasswordService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
 
   async execute({
     token,
-    password
+    senha
   }) {
     const usertoken = await this.userToken.findByToken(token);
 
@@ -44,7 +44,7 @@ let ResetPasswordService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
       throw new _AppError.default("token do usuario nao existe");
     }
 
-    const user = await this.userRepository.findById(usertoken.user_id);
+    const user = await this.userRepository.findById(usertoken.id);
 
     if (!user) {
       throw new _AppError.default("usuario nao existe");
@@ -57,8 +57,7 @@ let ResetPasswordService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
       throw new _AppError.default("Token expirado");
     }
 
-    user.password = await this.hashProvider.generateHah(password);
-    await this.userRepository.save(user);
+    user.senha = await this.hashProvider.generateHah(senha);
   }
 
 }) || _class) || _class) || _class) || _class) || _class) || _class);

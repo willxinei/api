@@ -16,14 +16,14 @@ class ResetPasswordController {
     try {
       const {
         token,
-        password
+        senha
       } = req.body;
 
       const sendForgotPasswordEmail = _tsyringe.container.resolve(_ResetPasswordService.default);
 
       const user = await sendForgotPasswordEmail.execute({
         token,
-        password
+        senha
       });
       return res.json(user);
     } catch (err) {

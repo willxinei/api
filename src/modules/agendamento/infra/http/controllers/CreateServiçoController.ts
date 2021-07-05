@@ -1,8 +1,8 @@
 import CreateServiçoService from "@modules/agendamento/services/CreateSerivçoSerice";
 import UpdateServices from "@modules/agendamento/services/UpdateService";
+import DeleteServicoService from "@modules/prestador/services/DeleteServicoService";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { updateSetAccessor } from "typescript";
 
 export default class CreateServiçoController {
    public async create(req: Request, res: Response): Promise<Response> {
@@ -20,7 +20,7 @@ export default class CreateServiçoController {
 
          return res.json(services);
       } catch (err) {
-         return res.json(err.message);
+         return res.json(err);
       }
    }
 
@@ -39,7 +39,19 @@ export default class CreateServiçoController {
 
          return res.json(services);
       } catch (err) {
-         return res.json(err.message);
+         return res.json(err);
       }
+   }
+
+   public async delet(re: Request, res: Response): Promise<Response> {
+      const geteAgendamento = container.resolve(DeleteServicoService);
+
+      const { id } = re.params;
+
+      re.io.emit("delet", id);
+
+      await geteAgendamento.delete(id);
+
+      return res.status(204).send();
    }
 }

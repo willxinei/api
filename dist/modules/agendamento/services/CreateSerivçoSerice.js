@@ -30,7 +30,6 @@ let CreateServiçoService = (_dec = (0, _tsyringe.injectable)(), _dec2 = functio
     value
   }) {
     const ser = await this.serviceRepository.findUniqService(provider_id, service);
-    console.log(ser);
 
     if (ser) {
       throw new _AppError.default("Serviço ja existe");

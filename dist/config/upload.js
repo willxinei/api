@@ -16,18 +16,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const tmpFolder = _path.default.resolve(__dirname, "..", "..", "tmp");
 
 var _default = {
+  driver: process.env.STORAGE_DRIVER,
   tmpFolder,
   UploadFolder: _path.default.resolve(tmpFolder, "uploads"),
-  storage: _multer.default.diskStorage({
-    destination: tmpFolder,
+  multer: {
+    storage: _multer.default.diskStorage({
+      destination: tmpFolder,
 
-    filename(request, file, callback) {
-      const fileHash = _crypto.default.randomBytes(10).toString("hex");
+      filename(request, file, callback) {
+        const fileHash = _crypto.default.randomBytes(10).toString("hex");
 
-      const fileName = `${fileHash}-${file.originalname}`;
-      return callback(null, fileName);
+        const fileName = `${fileHash}-${file.originalname}`;
+        return callback(null, fileName);
+      }
+
+    })
+  },
+  config: {
+    disk: {},
+    aws: {
+      bucket: "dai-nails"
     }
-
-  })
+  }
 };
 exports.default = _default;

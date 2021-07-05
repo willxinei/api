@@ -10,4 +10,6 @@ export default interface IServiceRepository {
    ): Promise<Services | null>;
 
    listService(provider_id: string): Promise<Services[]>;
+
+   delete(id: string): Promise<void>;
 }

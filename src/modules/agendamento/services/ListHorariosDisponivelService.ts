@@ -1,3 +1,6 @@
+/* eslint-disable array-callback-return */
+import IPrestadorRepository from "@modules/prestador/repositories/IPrestadorRepository";
+import IReservarRepository from "@modules/prestador/repositories/IReservaRepository";
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/ban-types */
 import AppError from "@shared/errors/AppError";
@@ -29,7 +32,13 @@ export default class ListHorarioDiponilvelService {
       private serviceRepository: IServiceRepository,
 
       @inject("BloqueioRepostory")
-      private bloquioRepository: IBloqueioRepository
+      private bloquioRepository: IBloqueioRepository,
+
+      @inject("PrestadorRepository")
+      private prestadorRepository: IPrestadorRepository,
+
+      @inject("ReservaRepository")
+      private reservaRepository: IReservarRepository
    ) {}
 
    public async exec({
@@ -55,7 +64,8 @@ export default class ListHorarioDiponilvelService {
 
          const mapFn = (_: number, i: number) => start + i;
 
-         const horarios = Array.from({ length }, mapFn);
+         const hor = Array.from({ length }, mapFn);
+         return hor;
       }
 
       const findSercies = await this.serviceRepository.findUniqService(
@@ -63,12 +73,18 @@ export default class ListHorarioDiponilvelService {
          service
       );
 
+      const findWork = await this.prestadorRepository.findById(provider_id);
+
+      if (!findWork) {
+         throw new AppError("prestador nao encontrado");
+      }
+
       if (!findSercies) {
          throw new AppError("Esse serviço nao existe");
       }
 
-      const tempo = convertHours(findSercies?.time);
-      const time = getMinutes(new Date(2000, 2, 2, 10, tempo - 1, 0, 0));
+      const tempoServico = convertHours(findSercies?.time);
+      const time = getMinutes(new Date(2000, 2, 2, 10, tempoServico - 1, 0, 0));
 
       const appointments = await this.agendamentoRepository.findAgenndamentosDoDia(
          dia,
@@ -76,23 +92,23 @@ export default class ListHorarioDiponilvelService {
          provider_id
       );
 
-      console.log(horarios);
+      const horaStartAgenda = appointments
+         .map((h) => {
+            return h.from;
+         })
+         .sort((a, b) => {
+            return a - b;
+         });
 
-      const horaStartAgenda = appointments.map((h) => {
-         return h.from;
-      });
-      horaStartAgenda.sort((a, b) => {
-         return a - b;
-      });
+      const horafim = appointments
+         .map((h) => {
+            // const horaReduzida = convertHours(h.at);
 
-      const horafim = appointments.map((h) => {
-         // const horaReduzida = convertHours(h.at);
-
-         return h.at;
-      });
-      horafim.sort((a, b) => {
-         return a - b;
-      });
+            return h.at;
+         })
+         .sort((a, b) => {
+            return a - b;
+         });
 
       const inicioLeng = horaStartAgenda.length - 1;
 
@@ -106,36 +122,37 @@ export default class ListHorarioDiponilvelService {
             let fim = horafim[indice];
             while (fim < inicio) {
                fim += 1;
-               if (fim + tempo < inicio) {
+               if (fim + tempoServico < inicio) {
                   hora.push(fim);
                }
             }
          }
 
-         rangeHorario(480, 660);
+         const tempoWorkStart = convertHours(findWork.work_init);
+         const tempoWorkStop = convertHours(findWork.work_and);
 
-         let indCont = -tempo;
+         let indCont = -tempoServico;
          while (indCont < hora[hora.length - 1]) {
-            indCont += tempo;
+            indCont += tempoServico;
             if (hora[indCont] !== undefined) {
                horarios.push(hora[indCont]);
             }
          }
 
          if (horaStartAgenda[0] === undefined) {
-            let conte = 480 - tempo;
-            while (conte < 1140) {
-               conte += tempo;
+            let conte = tempoWorkStart - tempoServico;
+            while (conte < tempoWorkStop) {
+               conte += tempoServico;
                horarios.push(conte);
             }
          }
 
-         if (horaStartAgenda[0] > 780) {
-            let con = 480 - tempo;
+         if (horaStartAgenda[0] > tempoWorkStart) {
+            let con = tempoWorkStart - tempoServico;
             const or: number[] = [];
-            const horaMI = horaStartAgenda[0] - tempo;
+            const horaMI = horaStartAgenda[0] - tempoServico;
             while (con < horaMI) {
-               con += tempo;
+               con += tempoServico;
                or.push(con);
             }
             or.filter((h) => {
@@ -145,10 +162,10 @@ export default class ListHorarioDiponilvelService {
             });
          }
 
-         let hormin = horafim[horafim.length - 1] + 1 - tempo;
-         for (hormin; hormin < 1140; ) {
-            hormin += tempo;
-            if (hormin <= 1140) {
+         let hormin = horafim[horafim.length - 1] + 1 - tempoServico;
+         for (hormin; hormin < tempoWorkStop; ) {
+            hormin += tempoServico;
+            if (hormin <= tempoWorkStop) {
                horarios.push(hormin);
             }
          }
@@ -164,13 +181,51 @@ export default class ListHorarioDiponilvelService {
          mes
       );
 
+      const findReservas = await this.reservaRepository.findById(mes);
+      console.log(findReservas);
+
+      const startReserva = findReservas
+         .map((h) => convertHours(h.from))
+         .sort((a, b) => a - b);
+
+      const stopReserva = findReservas
+         .map((h) => convertHours(h.at))
+         .sort((a, b) => a - b);
+
+      const startBloqueio = findBloqueio
+         .map((h) => convertHours(h.from))
+         .sort((a, b) => a - b);
+
+      const stopBloqueio = findBloqueio
+         .map((h) => convertHours(h.at))
+         .sort((a, b) => a - b);
+
       const bloqueio: number[] = [];
       if (findBloqueio) {
-         let from = convertHours(findBloqueio.from) - 1;
-         const at = convertHours(findBloqueio.at) - 1;
-         while (from < at) {
-            from += 1;
-            bloqueio.push(from);
+         const lenght = findBloqueio.length - 1;
+         let i = -1;
+
+         while (i < lenght) {
+            i += 1;
+
+            const startB = startBloqueio[i];
+            const stopB = stopBloqueio[i];
+
+            rangeHorario(startB, stopB).map((h) => bloqueio.push(h));
+         }
+      }
+
+      if (findReservas) {
+         const lenght = findReservas.length - 1;
+         let i = -1;
+
+         while (i < lenght) {
+            i += 1;
+
+            const startR = startReserva[i];
+            const stopR = stopReserva[i];
+
+            rangeHorario(startR, stopR).map((h) => bloqueio.push(h));
          }
       }
 

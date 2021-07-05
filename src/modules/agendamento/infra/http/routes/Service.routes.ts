@@ -7,6 +7,7 @@ const serviceRoute = Router();
 
 const createServiceController = new CreateServiçoController();
 const listController = new FindServicecontroller();
+
 // Create Serviço
 serviceRoute.post("/service", midlewareAuth, createServiceController.create);
 
@@ -14,6 +15,12 @@ serviceRoute.patch(
    "/service/update",
    midlewareAuth,
    createServiceController.update
+);
+
+serviceRoute.delete(
+   "/service/:id/delet",
+   midlewareAuth,
+   createServiceController.delet
 );
 
 serviceRoute.get("/:provider_id/list", midlewareAuth, listController.create);

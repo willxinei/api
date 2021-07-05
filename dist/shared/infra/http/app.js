@@ -9,8 +9,6 @@ require("reflect-metadata");
 
 require("express-async-errors");
 
-require("../typeorm");
-
 require("../../container");
 
 var _express = _interopRequireDefault(require("express"));
@@ -36,6 +34,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* eslint-disable import/no-unresolved */
 
 /* eslint-disable @typescript-eslint/no-var-requires */
+// import "@shared/infra/typeorm";
 const app = (0, _express.default)();
 
 const server = _http.default.createServer(app);

@@ -1,5 +1,5 @@
+import { bloqueio } from "@prisma/client";
 import { inject, injectable } from "tsyringe";
-import bloqueio from "../infra/typeorm/entities/Bloqueio";
 import IBloqueioRepository from "../repositories/IBloqueioRepository";
 
 @injectable()

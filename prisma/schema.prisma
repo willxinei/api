@@ -101,3 +101,12 @@ model bloqueio {
   mes                Int            @db.Integer
   dia                Int            @db.Integer
 }
+
+model Reservas {
+   id                String         @id            @default(uuid())
+   provider_id       String         @default(uuid())
+   user_id           String?         @default(uuid())
+   from              String         
+   at                String
+   mes               Int
+}

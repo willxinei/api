@@ -17,16 +17,16 @@ class Bloqueiocontroller {
       const createService = _tsyringe.container.resolve(_CreateBloqueio.default);
 
       const {
-        provider_id,
         from,
         at,
         dia,
         mes
       } = req.body;
+      const provider_id = req.user.id;
       const services = await createService.execute(provider_id, from, at, dia, mes);
       return res.json(services);
     } catch (err) {
-      return res.json(err.message);
+      return res.json(err);
     }
   }
 

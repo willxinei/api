@@ -36,14 +36,13 @@ const updateProfile = new _UpdateProfileContrller.default();
 const updateAvatercontrller = new _UpdateAvatarController.default();
 const resetPassword = new _ResetPasswordController.default();
 const forgot = new _ForgotPasswordController.default();
-const img = (0, _multer.default)(_upload.default);
+const img = (0, _multer.default)(_upload.default.multer);
 UserRoute.post("/user", (0, _celebrate.celebrate)({
   [_celebrate.Segments.BODY]: {
-    name: _celebrate.Joi.string().required(),
+    nome: _celebrate.Joi.string().required(),
     email: _celebrate.Joi.string().required(),
     telefone: _celebrate.Joi.number().required(),
-    password: _celebrate.Joi.string().required().min(6),
-    prestador: _celebrate.Joi.boolean().required()
+    senha: _celebrate.Joi.string().required().min(6)
   }
 }), userController.create);
 UserRoute.get("/show", userController.listUser);

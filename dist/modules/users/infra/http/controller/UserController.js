@@ -17,25 +17,25 @@ class UserController {
   async create(req, res) {
     try {
       const {
-        name,
+        nome,
         email,
         telefone,
-        password,
+        senha,
         prestador
       } = req.body;
 
       const create = _tsyringe.container.resolve(_CreateUserService.default);
 
       const user = await create.execute({
-        name,
+        nome,
         email,
         telefone,
-        password,
+        senha,
         prestador
       });
       return res.json(user);
     } catch (err) {
-      return res.json(err.message);
+      return res.json(err);
     }
   }
 

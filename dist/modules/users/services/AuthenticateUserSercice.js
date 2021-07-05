@@ -30,7 +30,7 @@ let AuthenticateUserService = (_dec = (0, _tsyringe.injectable)(), _dec2 = funct
 
   async execute({
     email,
-    password
+    senha
   }) {
     const user = await this.userRepository.findByEmail(email);
 
@@ -38,7 +38,7 @@ let AuthenticateUserService = (_dec = (0, _tsyringe.injectable)(), _dec2 = funct
       throw new _AppError.default("email incorreto");
     }
 
-    const compareSenhaa = await (0, _bcryptjs.compare)(password, user.password);
+    const compareSenhaa = await (0, _bcryptjs.compare)(senha, user.senha);
 
     if (!compareSenhaa) {
       throw new _AppError.default("senha incorreta");

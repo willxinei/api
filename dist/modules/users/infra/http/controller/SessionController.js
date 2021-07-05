@@ -13,28 +13,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 class SessionController {
   async create(req, res) {
-    try {
-      const {
-        email,
-        password
-      } = req.body;
+    const {
+      email,
+      senha
+    } = req.body;
 
-      const auth = _tsyringe.container.resolve(_AuthenticateUserSercice.default);
+    const auth = _tsyringe.container.resolve(_AuthenticateUserSercice.default);
 
-      const {
-        user,
-        token
-      } = await auth.execute({
-        email,
-        password
-      });
-      return res.json({
-        user,
-        token
-      });
-    } catch (error) {
-      return res.json(error);
-    }
+    const {
+      user,
+      token
+    } = await auth.execute({
+      email,
+      senha
+    });
+    return res.json({
+      user,
+      token
+    });
   }
 
 }

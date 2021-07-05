@@ -29,8 +29,8 @@ export default class BloqueioRepository implements IBloqueioRepository {
       provider_id: string,
       dia: number,
       mes: number
-   ): Promise<bloqueio | null> {
-      const find = await this.prisma.bloqueio.findFirst({
+   ): Promise<bloqueio[]> {
+      const find = await this.prisma.bloqueio.findMany({
          where: {
             provider_id,
             dia,

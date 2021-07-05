@@ -1,6 +1,7 @@
 import { PrismaClient, Services } from "@prisma/client";
 import { IServiceDTO } from "@modules/agendamento/dtos/IServiceDTO";
 import IServiceRepository from "@modules/agendamento/repositories/IServiceRepository";
+import AppError from "@shared/errors/AppError";
 
 export default class ServiceRepository implements IServiceRepository {
    private prisma = new PrismaClient();
@@ -39,5 +40,14 @@ export default class ServiceRepository implements IServiceRepository {
       });
 
       return servico;
+   }
+
+   public async delete(id: string): Promise<void> {
+      // const del = await this.prisma.services.findUnique({ where: { id } });
+      // if (!del) {
+      //    throw new AppError("not exist");
+      // }
+
+      await this.prisma.services.delete({ where: { id } });
    }
 }

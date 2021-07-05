@@ -39,16 +39,6 @@ export default class FindTodosAgendamentosUserSerice {
          return a.dia - b.dia;
       });
 
-      // const agendaFormatada = agenda.map((h) => {
-      //    const dateFrom = new Date(h.ano, h.mes - 1, h.dia, 0, h.from, 0);
-      //    const dateAt = new Date(h.ano, h.mes - 1, h.dia, 0, h.at, 0);
-      //    const fromFormated = format(dateFrom, "HH:00");
-      //    const atFormated = format(dateAt, "HH:00");
-      //    h.from = fromFormated;
-      //    h.at = atFormated;
-      //    return h;
-      // });
-
       return agenda;
    }
 }

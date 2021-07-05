@@ -29,10 +29,10 @@ let UpdateProfileService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
 
   async execute({
     user_id,
-    name,
+    nome,
     email,
     telefone,
-    password,
+    senha,
     old_password
   }) {
     const user = await this.userRepository.findById(user_id);
@@ -47,25 +47,25 @@ let UpdateProfileService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function
       throw new _AppError.default("E-mail ja esta em uso");
     }
 
-    user.name = name;
+    user.nome = nome;
     user.email = email;
     user.telefone = telefone;
 
-    if (password && !old_password) {
+    if (senha && !old_password) {
       throw new _AppError.default("voce precisa informar sua senha antiga");
     }
 
-    if (password && old_password) {
-      const checkOld = await this.hashProvider.compareHah(old_password, user.password);
+    if (senha && old_password) {
+      const checkOld = await this.hashProvider.compareHah(old_password, user.senha);
 
       if (!checkOld) {
         throw new _AppError.default("Senha antiga nao confere");
       }
 
-      user.password = await this.hashProvider.generateHah(password);
+      user.senha = await this.hashProvider.generateHah(senha);
     }
 
-    return this.userRepository.save(user);
+    return user;
   }
 
 }) || _class) || _class) || _class) || _class) || _class);

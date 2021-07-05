@@ -7,7 +7,8 @@ export default class Bloqueiocontroller {
    public async create(req: Request, res: Response): Promise<Response> {
       try {
          const createService = container.resolve(CreateBloqueioService);
-         const { provider_id, from, at, dia, mes } = req.body;
+         const { from, at, dia, mes } = req.body;
+         const provider_id = req.user.id;
 
          const services = await createService.execute(
             provider_id,
@@ -19,7 +20,7 @@ export default class Bloqueiocontroller {
 
          return res.json(services);
       } catch (err) {
-         return res.json(err.message);
+         return res.json(err);
       }
    }
 }

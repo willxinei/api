@@ -1,3 +1,4 @@
+import IReservarRepository from "@modules/prestador/repositories/IReservaRepository";
 import IPrestadorRepository from "@modules/prestador/repositories/IPrestadorRepository";
 import { IAgendamentoRepository } from "@modules/agendamento/repositories/IAgendamentoRespository";
 import IServiceRepository from "@modules/agendamento/repositories/IServiceRepository";
@@ -15,6 +16,7 @@ import AgendamentoRepository from "@modules/agendamento/infra/Prisma/Agendamento
 import ServiceRepository from "@modules/agendamento/infra/Prisma/ServiceRespository";
 import BloqueioRepository from "@modules/agendamento/infra/Prisma/BloqueioRepository";
 import NotificationsRepository from "@modules/notifications/infra/Prisma/NotificatonRepository";
+import ReservasRepository from "@modules/prestador/infra/Prisma/ReservarRepository";
 
 container.registerSingleton<IAgendamentoRepository>(
    "AgendamentoRepository",
@@ -41,10 +43,15 @@ container.registerSingleton<IPrestadorRepository>(
    PrestadorRepository
 );
 
-// container.registerSingleton<IUserTokenRepository>(
-//    "UserToken",
-//    PrismaTokenRepository
-// );
+container.registerSingleton<IReservarRepository>(
+   "ReservaRepository",
+   ReservasRepository
+);
+
+container.registerSingleton<IUserTokenRepository>(
+   "UserToken",
+   PrismaTokenRepository
+);
 
 container.registerSingleton<INotification>(
    "NotificationRepository",

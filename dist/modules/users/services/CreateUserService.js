@@ -25,10 +25,10 @@ let CrateUserService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function (ta
   }
 
   async execute({
-    name,
+    nome,
     email,
     telefone,
-    password,
+    senha,
     prestador
   }) {
     const findUser = await this.userrepository.findByEmail(email);
@@ -37,12 +37,12 @@ let CrateUserService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function (ta
       throw new _AppError.default("Email ja existe");
     }
 
-    const hashd = await (0, _bcryptjs.hash)(password, 8);
+    const hashd = await (0, _bcryptjs.hash)(senha, 8);
     const user = await this.userrepository.create({
-      name,
+      nome,
       email,
       telefone,
-      password: hashd,
+      senha: hashd,
       prestador
     });
     return user;

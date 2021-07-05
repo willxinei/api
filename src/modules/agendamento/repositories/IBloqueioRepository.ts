@@ -13,5 +13,5 @@ export default interface IBloqueioRepository {
       provider_id: string,
       dia: number,
       mes: number
-   ): Promise<bloqueio | null>;
+   ): Promise<bloqueio[]>;
 }

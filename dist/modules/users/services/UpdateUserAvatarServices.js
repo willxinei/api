@@ -43,7 +43,6 @@ let UpdateUserAvatarService = (_dec = (0, _tsyringe.injectable)(), _dec2 = funct
 
     const filename = await this.storageProvider.saveFile(avatarFilename);
     user.avatar = filename;
-    await this.userRepository.save(user);
     return user;
   }
 

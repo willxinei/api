@@ -30,10 +30,10 @@ class UpdateProfileControll {
   async update(req, res) {
     const user_id = req.user.id;
     const {
-      name,
+      nome,
       email,
       telefone,
-      password,
+      senha,
       old_password
     } = req.body;
 
@@ -41,11 +41,11 @@ class UpdateProfileControll {
 
     const user = await createUser.execute({
       user_id,
-      name,
+      nome,
       email,
       telefone,
       old_password,
-      password
+      senha
     });
     return res.json((0, _classTransformer.classToClass)(user));
   }

@@ -5,6 +5,7 @@ import { Joi, Segments, celebrate } from "celebrate";
 import { Router } from "express";
 import multer from "multer";
 import PrestadorController from "../controllers/PrestadorController";
+import ReservaController from "../controllers/ReservaController";
 import ForgotPasswordController from "../controllers/SendMailPrestadorController";
 import SessionPrestadorController from "../controllers/SessionPrestadorController";
 import UpdateAvatercontrller from "../controllers/UpateAvatarController";
@@ -16,6 +17,7 @@ const prestadorControler = new PrestadorController();
 const sessionController = new SessionPrestadorController();
 const forgotController = new ForgotPasswordController();
 const avatarController = new UpdateAvatercontrller();
+const reservaController = new ReservaController();
 
 //* */ Show profile *//
 prestadorRoute.get("/profile", midlewareAuth, prestadorControler.show);
@@ -37,6 +39,7 @@ prestadorRoute.post(
    prestadorControler.create
 );
 
+prestadorRoute.post("/reserva", midlewareAuth, reservaController.create);
 prestadorRoute.post("/session", sessionController.create);
 prestadorRoute.post("/forgot", forgotController.create);
 

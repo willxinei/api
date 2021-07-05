@@ -31,7 +31,7 @@ let ShowProfileService = (_dec = (0, _tsyringe.injectable)(), _dec2 = function (
       throw new _AppError.default("Usuario nao existe");
     }
 
-    return this.userRepository.save(user);
+    return user;
   }
 
 }) || _class) || _class) || _class) || _class);

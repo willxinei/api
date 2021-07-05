@@ -20,6 +20,7 @@ const createServiceController = new _CreateServiçoController.default();
 const listController = new _FindServiceController.default(); // Create Serviço
 
 serviceRoute.post("/service", _midlewareAuth.default, createServiceController.create);
+serviceRoute.patch("/service/update", _midlewareAuth.default, createServiceController.update);
 serviceRoute.get("/:provider_id/list", _midlewareAuth.default, listController.create);
 var _default = serviceRoute;
 exports.default = _default;

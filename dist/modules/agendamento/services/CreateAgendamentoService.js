@@ -61,21 +61,19 @@ let CreateAgendamentoService = (_dec = (0, _tsyringe.injectable)(), _dec2 = func
   }) {
     const agendaDodia = await this.agendamentoRepository.findAgenndamentosDoDia(dia, mes, provider_id);
     const findServices = await this.serviceRepository.findUniqService(provider_id, service);
-    console.log(findServices === null || findServices === void 0 ? void 0 : findServices.time);
     const findUsername = await this.UserRepository.findById(user_id);
 
     if (!findUsername) {
       throw new _AppError.default("nao encontrado");
     }
 
-    const tempo = findServices === null || findServices === void 0 ? void 0 : findServices.time;
-    const hour = convertHours(from);
-    const endHour = convertHours(tempo) + hour - 1;
-
     if (!findServices) {
       throw new _AppError.default("esse servico nao existe");
     }
 
+    const tempo = findServices.time;
+    const hour = convertHours(from);
+    const endHour = convertHours(tempo) + hour - 1;
     const horarioDoDia = agendaDodia.map(h => {
       return h.from;
     });
@@ -116,8 +114,9 @@ let CreateAgendamentoService = (_dec = (0, _tsyringe.injectable)(), _dec2 = func
     }
 
     const date = new Date(ano, mes - 1, dia, 0, hour);
+    const dateNow = new Date(Date.now()).setMinutes(-(3 * 60));
 
-    if ((0, _dateFns.isBefore)(date, Date.now())) {
+    if ((0, _dateFns.isBefore)(date, dateNow)) {
       throw new _AppError.default("Você não pode agendar um horario em horas ja passadas");
     }
 
@@ -130,9 +129,6 @@ let CreateAgendamentoService = (_dec = (0, _tsyringe.injectable)(), _dec2 = func
       user_id,
       from: hour,
       at: endHour,
-      user_name: findUsername.name,
-      telefone: findUsername.telefone,
-      avatar: findUsername.avatar,
       dia,
       mes,
       ano,
