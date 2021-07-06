@@ -17,7 +17,6 @@ class CrateUserService {
       email,
       telefone,
       senha,
-      prestador,
    }: IUsersDTO): Promise<Users> {
       const findUser = await this.userrepository.findByEmail(email);
 
@@ -31,7 +30,6 @@ class CrateUserService {
          email,
          telefone,
          senha: hashd,
-         prestador,
       });
 
       return user;
