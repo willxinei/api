@@ -43,7 +43,7 @@ jobs:
           script: |
             cd ~/app/api
             yarn
-            yarn prisma migrate --dev
+            yarn prisma migrate deploy
             pm2 restart dai-nails 
 
 

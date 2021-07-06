@@ -8,7 +8,7 @@ interface IRequest {
    user_id: string;
    nome: string;
    email: string;
-   telefone: number;
+   telefone: string;
    old_password?: string;
    senha?: string;
 }
