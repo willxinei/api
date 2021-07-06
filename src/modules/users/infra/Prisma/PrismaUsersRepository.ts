@@ -1,6 +1,6 @@
 import IUsersDTO from "@modules/users/dtos/UsersDTO";
 import IUsersRepository from "@modules/users/repositories/IUsersRepository";
-import { Users, PrismaClient, Prestador } from "@prisma/client";
+import { Users, PrismaClient } from "@prisma/client";
 
 export default class PrismaUsersRepository implements IUsersRepository {
    private prisma = new PrismaClient();
