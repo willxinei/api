@@ -5,23 +5,19 @@ import { container } from "tsyringe";
 
 export default class UserController {
    public async create(req: Request, res: Response): Promise<Response> {
-      try {
-         const { nome, email, telefone, senha, prestador } = req.body;
+      const { nome, email, telefone, senha, prestador } = req.body;
 
-         const create = container.resolve(CrateUserService);
+      const create = container.resolve(CrateUserService);
 
-         const user = await create.execute({
-            nome,
-            email,
-            telefone,
-            senha,
-            prestador,
-         });
+      const user = await create.execute({
+         nome,
+         email,
+         telefone,
+         senha,
+         prestador,
+      });
 
-         return res.json(user);
-      } catch (err) {
-         return res.json(err);
-      }
+      return res.json(user);
    }
 
    public async listUser(req: Request, res: Response): Promise<Response> {

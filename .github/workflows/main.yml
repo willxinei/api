@@ -43,7 +43,7 @@ jobs:
           script: |
             cd ~/app/api
             yarn
-            ./node_modules/.bin/typeorm migration:run
+            yarn prisma migrate --dev
             pm2 restart dai-nails 
 
 
