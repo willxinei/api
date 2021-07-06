@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Prestador" ALTER COLUMN "work_init" SET DATA TYPE TEXT,
-ALTER COLUMN "work_and" SET DATA TYPE TEXT;

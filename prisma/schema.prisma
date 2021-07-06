@@ -31,7 +31,7 @@ model Users {
    nome              String
    email             String         @unique
    senha             String
-   telefone          String
+   telefone          Int            @db.Integer
    avatar            String?         
    agendamento       Agendamento[]
 }
@@ -40,7 +40,7 @@ model Prestador {
    id                String         @id      @default(uuid())
    nome              String
    email             String         @unique
-   telefone          String
+   telefone          Int            @db.Integer
    senha             String
    avatar            String?
    work_init         String

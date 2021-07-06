@@ -1,5 +1,4 @@
 import upload from "@config/upload";
-import AuthenticateUserService from "@modules/users/services/AuthenticateUserSercice";
 import midlewareAuth from "@shared/infra/http/midleWares/midlewareAuth";
 import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
