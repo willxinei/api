@@ -11,6 +11,6 @@ export default class UpdateAvatercontrller {
          avatarFilename: req.file.filename,
       });
 
-      return res.json(classToClass(user));
+      return res.json(user);
    }
 }

@@ -24,9 +24,10 @@ export default class UpdateAvatarPrestadorService {
       avatarName,
    }: IRequest): Promise<Prestador> {
       const prestador = await this.prestadorRepository.findById(provider_id);
+      console.log(prestador);
 
       if (!prestador) {
-         throw new AppError("Usuário não encontrado");
+         throw new AppError("Usuário nãos encontrado");
       }
 
       if (prestador.avatar) {

@@ -17,6 +17,20 @@ import ServiceRepository from "@modules/agendamento/infra/Prisma/ServiceResposit
 import BloqueioRepository from "@modules/agendamento/infra/Prisma/BloqueioRepository";
 import NotificationsRepository from "@modules/notifications/infra/Prisma/NotificatonRepository";
 import ReservasRepository from "@modules/prestador/infra/Prisma/ReservarRepository";
+import upload from "@config/upload";
+import IStorageProvider from "./providers/StorageProvider/models/IStorageProviders";
+import DiskStorageProvider from "./providers/StorageProvider/implementations/DiskStorageProvider";
+import S3StoreageProvider from "./providers/StorageProvider/implementations/S3Provider";
+
+const providers = {
+   disk: DiskStorageProvider,
+   s3: S3StoreageProvider,
+};
+
+container.registerSingleton<IStorageProvider>(
+   "StorageProvider",
+   providers[upload.driver]
+);
 
 container.registerSingleton<IAgendamentoRepository>(
    "AgendamentoRepository",
