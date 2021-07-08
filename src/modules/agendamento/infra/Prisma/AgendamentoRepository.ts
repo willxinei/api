@@ -1,3 +1,4 @@
+import { Prestador } from "@prisma/client";
 /* eslint-disable camelcase */
 import { Agendamento, PrismaClient } from "@prisma/client";
 import { ICreateAgendamentoDTO } from "@modules/agendamento/dtos/ICreateAgendamentoDTO";
@@ -83,5 +84,13 @@ export default class AgendamentoRepository implements IAgendamentoRepository {
       });
 
       return agenda;
+   }
+
+   public async findTodosPrestadores(): Promise<Prestador[]> {
+      const prestador = await this.prisma.prestador.findMany({
+         include: { services: true },
+      });
+
+      return prestador;
    }
 }
