@@ -1,6 +1,5 @@
 import IBloqueioRepository from "@modules/agendamento/repositories/IBloqueioRepository";
 import { bloqueio, PrismaClient } from "@prisma/client";
-import { getRepository, Repository } from "typeorm";
 
 export default class BloqueioRepository implements IBloqueioRepository {
    private prisma = new PrismaClient();

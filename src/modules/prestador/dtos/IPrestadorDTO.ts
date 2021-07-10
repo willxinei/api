@@ -1,7 +1,7 @@
 export default interface IPrestadorDTO {
    nome: string;
    email: string;
-   telefone: number;
+   telefone: string;
    senha: string;
    work_init: string;
    work_and: string;

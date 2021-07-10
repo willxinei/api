@@ -5,24 +5,28 @@ import { container } from "tsyringe";
 
 export default class AgendamentoController {
    public async create(req: Request, res: Response): Promise<Response> {
-      const { provider_id, from, service, dia, mes, ano } = req.body;
-      const user_id = req.user.id;
+      try {
+         const { provider_id, from, service, dia, mes, ano } = req.body;
+         const user_id = req.user.id;
 
-      const createAgendamento = container.resolve(CreateAgendamentoService);
+         const createAgendamento = container.resolve(CreateAgendamentoService);
 
-      const agendamento = await createAgendamento.execute({
-         provider_id,
-         user_id,
-         from,
-         at: from,
-         dia,
-         mes,
-         ano,
-         service,
-      });
+         const agendamento = await createAgendamento.execute({
+            provider_id,
+            user_id,
+            from,
+            at: from,
+            dia,
+            mes,
+            ano,
+            service,
+         });
 
-      await req.io.emit("agenda", classToClass(agendamento));
+         await req.io.emit("agenda");
 
-      return res.json(classToClass(agendamento));
+         return res.json(agendamento);
+      } catch (error) {
+         return res.json(error).status(400);
+      }
    }
 }

@@ -20,6 +20,14 @@ export default class ServiceRepository implements IServiceRepository {
       return find;
    }
 
+   public async findById(id: string): Promise<Services | null> {
+      const find = await this.prisma.services.findFirst({
+         where: { id },
+      });
+
+      return find;
+   }
+
    public async listService(provider_id: string): Promise<Services[]> {
       const find = await this.prisma.services.findMany({
          where: { provider_id },
@@ -43,11 +51,6 @@ export default class ServiceRepository implements IServiceRepository {
    }
 
    public async delete(id: string): Promise<void> {
-      // const del = await this.prisma.services.findUnique({ where: { id } });
-      // if (!del) {
-      //    throw new AppError("not exist");
-      // }
-
       await this.prisma.services.delete({ where: { id } });
    }
 }

@@ -9,6 +9,8 @@ export default interface IServiceRepository {
       service: string
    ): Promise<Services | null>;
 
+   findById(id: string): Promise<Services | null>;
+
    listService(provider_id: string): Promise<Services[]>;
 
    delete(id: string): Promise<void>;

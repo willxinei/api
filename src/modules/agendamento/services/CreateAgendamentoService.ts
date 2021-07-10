@@ -1,3 +1,4 @@
+import { IPrestadorRepository } from "@modules/prestador/repositories/IPrestadorRepository";
 /* eslint-disable no-param-reassign */
 /* eslint-disable array-callback-return */
 import INotification from "@modules/notifications/repositories/INotificationsReposiotry";
@@ -36,8 +37,8 @@ export default class CreateAgendamentoService {
       @inject("ServiceRepository")
       private serviceRepository: IServiceRepository,
 
-      @inject("UserRepository")
-      private UserRepository: IUsersRepository,
+      @inject("PrestadorRepository")
+      private UserRepository: IPrestadorRepository,
 
       @inject("NotificationRepository")
       private notificationRepository: INotification,
@@ -66,10 +67,10 @@ export default class CreateAgendamentoService {
          service
       );
 
-      const findUsername = await this.UserRepository.findById(user_id);
+      const findUsername = await this.UserRepository.findById(provider_id);
 
       if (!findUsername) {
-         throw new AppError("nao encontrado");
+         throw new AppError("Prestador nao encontrado");
       }
 
       if (!findServices) {

@@ -26,7 +26,7 @@ UserRoute.post(
       [Segments.BODY]: {
          nome: Joi.string().required(),
          email: Joi.string().required(),
-         telefone: Joi.number().required(),
+         telefone: Joi.string().required(),
          senha: Joi.string().required().min(6),
       },
    }),

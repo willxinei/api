@@ -1,6 +1,5 @@
-import { Prestador } from "@prisma/client";
 /* eslint-disable camelcase */
-import { Agendamento, PrismaClient } from "@prisma/client";
+import { Agendamento, PrismaClient, Prestador } from "@prisma/client";
 import { ICreateAgendamentoDTO } from "@modules/agendamento/dtos/ICreateAgendamentoDTO";
 import { IAgendamentoRepository } from "@modules/agendamento/repositories/IAgendamentoRespository";
 import AppError from "@shared/errors/AppError";
@@ -80,6 +79,7 @@ export default class AgendamentoRepository implements IAgendamentoRepository {
          where: { provider_id },
          include: {
             prestador: true,
+            user: true,
          },
       });
 

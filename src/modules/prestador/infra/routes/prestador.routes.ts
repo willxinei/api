@@ -29,7 +29,7 @@ prestadorRoute.post(
       [Segments.BODY]: {
          nome: Joi.string().required(),
          email: Joi.string().required(),
-         telefone: Joi.number().required(),
+         telefone: Joi.string().required(),
          senha: Joi.string().required(),
          work_init: Joi.string().required(),
          work_and: Joi.string().required(),
@@ -49,7 +49,7 @@ prestadorRoute.put(
       [Segments.BODY]: {
          nome: Joi.string().required(),
          email: Joi.string().required(),
-         telefone: Joi.number().required(),
+         telefone: Joi.string().required(),
          senha: Joi.string().required(),
          work_init: Joi.string().required(),
          work_and: Joi.string().required(),

@@ -8,7 +8,7 @@ interface IRequest {
    prestador_id: string;
    nome: string;
    email: string;
-   telefone: number;
+   telefone: string;
    work_init: string;
    work_and: string;
    funcao: string;

@@ -8,8 +8,8 @@ export default class CreateServiçoController {
    public async create(req: Request, res: Response): Promise<Response> {
       try {
          const createService = container.resolve(CreateServiçoService);
-         const { service, description, time, value } = req.body;
-         const provider_id = req.user.id;
+         const { provider_id, service, description, time, value } = req.body;
+         // const provider_id = req.user.id;
          const services = await createService.execute({
             provider_id,
             service,
@@ -20,16 +20,17 @@ export default class CreateServiçoController {
 
          return res.json(services);
       } catch (err) {
-         return res.json(err);
+         return res.json(err).status(400);
       }
    }
 
    public async update(req: Request, res: Response): Promise<Response> {
       try {
          const updateService = container.resolve(UpdateServices);
-         const { service, description, time, value } = req.body;
+         const { id, service, description, time, value } = req.body;
          const provider_id = req.user.id;
          const services = await updateService.execute({
+            id,
             provider_id,
             service,
             description,
@@ -39,19 +40,21 @@ export default class CreateServiçoController {
 
          return res.json(services);
       } catch (err) {
-         return res.json(err);
+         return res.json(err).status(400);
       }
    }
 
    public async delet(re: Request, res: Response): Promise<Response> {
-      const geteAgendamento = container.resolve(DeleteServicoService);
+      try {
+         const geteAgendamento = container.resolve(DeleteServicoService);
 
-      const { id } = re.params;
+         const { id } = re.params;
 
-      re.io.emit("delet", id);
+         await geteAgendamento.delete(id);
 
-      await geteAgendamento.delete(id);
-
-      return res.status(204).send();
+         return res.status(204).send();
+      } catch (error) {
+         return res.json(error).status(400);
+      }
    }
 }

@@ -1,7 +1,7 @@
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
 import IStorageProvider from "@shared/container/providers/StorageProvider/models/IStorageProviders";
-import { Users } from "@prisma/client";
+import { PrismaClient, Users } from "@prisma/client";
 import IUsersRepository from "../repositories/IUsersRepository";
 
 interface IRequest {
@@ -11,6 +11,8 @@ interface IRequest {
 
 @injectable()
 class UpdateUserAvatarService {
+   private prisma = new PrismaClient();
+
    constructor(
       @inject("UserRepository")
       private userRepository: IUsersRepository,
@@ -33,6 +35,13 @@ class UpdateUserAvatarService {
       const filename = await this.storageProvider.saveFile(avatarFilename);
 
       user.avatar = filename;
+
+      await this.prisma.users.update({
+         where: { id: user_id },
+         data: {
+            avatar: filename,
+         },
+      });
 
       return user;
    }

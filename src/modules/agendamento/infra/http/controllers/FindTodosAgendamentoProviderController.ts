@@ -13,7 +13,7 @@ export default class FindTodosAgendamentosPrestadorController {
          await req.io.emit("ag", ag);
          return res.json(classToClass(ag));
       } catch (err) {
-         return res.json(err.message).status(400);
+         return res.json(err).status(400);
       }
    }
 }

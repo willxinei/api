@@ -1,6 +1,6 @@
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
-import { Users } from "@prisma/client";
+import { Users, PrismaClient } from "@prisma/client";
 import IUsersRepository from "../repositories/IUsersRepository";
 import IHashProvider from "../providers/HashProvider/models/IHashProvider";
 
@@ -15,6 +15,8 @@ interface IRequest {
 
 @injectable()
 class UpdateProfileService {
+   private prisma = new PrismaClient();
+
    constructor(
       @inject("UserRepository")
       private userRepository: IUsersRepository,
@@ -62,6 +64,16 @@ class UpdateProfileService {
          }
          user.senha = await this.hashProvider.generateHah(senha);
       }
+
+      await this.prisma.users.update({
+         where: { id: user_id },
+         data: {
+            nome,
+            email,
+            telefone,
+            senha,
+         },
+      });
 
       return user;
    }

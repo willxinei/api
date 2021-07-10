@@ -20,7 +20,7 @@ export default class Bloqueiocontroller {
 
          return res.json(services);
       } catch (err) {
-         return res.json(err);
+         return res.json(err).status(400);
       }
    }
 }

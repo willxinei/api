@@ -238,7 +238,7 @@ export default class ListHorarioDiponilvelService {
 
       const hor = horariosBloqueados.map((h) => {
          const hourCorrent = new Date(Date.now());
-         hourCorrent.setMinutes(-(3 * 60));
+         // hourCorrent.setMinutes(-(3 * 60));
 
          const event = new Date(ano, mes - 1, dia, 0, h, 0);
 
