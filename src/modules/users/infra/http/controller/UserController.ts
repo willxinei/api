@@ -30,15 +30,19 @@ export default class UserController {
    }
 
    public async findUser(req: Request, res: Response): Promise<Response> {
-      const { provider_id } = req.params;
-      const { nome } = req.body;
+      try {
+         const { provider_id } = req.params;
+         const { nome } = req.body;
 
-      const list = container.resolve(FindUsuarioService);
+         const list = container.resolve(FindUsuarioService);
 
-      const listUser = await list.execute({
-         nome,
-         provider_id,
-      });
-      return res.json(listUser);
+         const listUser = await list.execute({
+            nome,
+            provider_id,
+         });
+         return res.json(listUser);
+      } catch (error) {
+         return res.json(error).status(400);
+      }
    }
 }
