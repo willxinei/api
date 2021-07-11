@@ -8,6 +8,12 @@ interface IRequest {
    provider_id: string;
 }
 
+interface IResposta {
+   id: string;
+   nome: string;
+   avatar: string;
+}
+
 @injectable()
 export default class FindUsuarioService {
    constructor(
@@ -15,10 +21,7 @@ export default class FindUsuarioService {
       private userRepository: IUsersRepository
    ) {}
 
-   public async execute({
-      nome,
-      provider_id,
-   }: IRequest): Promise<Users[] | null> {
+   public async execute({ nome, provider_id }: IRequest): Promise<Users> {
       const user = await this.userRepository.findByNome(nome);
 
       console.log(user);

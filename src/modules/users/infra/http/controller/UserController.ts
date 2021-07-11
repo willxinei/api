@@ -32,13 +32,13 @@ export default class UserController {
    public async findUser(req: Request, res: Response): Promise<Response> {
       try {
          const { provider_id } = req.params;
-         const { nome } = req.body;
+         const { nome } = req.query;
 
          const list = container.resolve(FindUsuarioService);
 
          const listUser = await list.execute({
-            nome,
-            provider_id,
+            nome: String(nome),
+            provider_id: String(provider_id),
          });
          return res.json(listUser);
       } catch (error) {

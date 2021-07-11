@@ -34,7 +34,7 @@ UserRoute.post(
 );
 
 UserRoute.get("/show", userController.listUser);
-UserRoute.post("/find", userController.findUser);
+UserRoute.get("/find", userController.findUser);
 
 UserRoute.post("/session", sessionController.create);
 UserRoute.get("/profile", midlewareAuth, updateProfile.show);
