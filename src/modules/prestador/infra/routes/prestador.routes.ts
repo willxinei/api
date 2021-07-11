@@ -72,20 +72,4 @@ prestadorRoute.patch(
    avatarController.update
 );
 
-prestadorRoute.post("/service", midlewareAuth, createServiceController.create);
-
-prestadorRoute.patch(
-   "/service/update",
-   midlewareAuth,
-   createServiceController.update
-);
-
-prestadorRoute.delete(
-   "/service/:id/delet",
-   midlewareAuth,
-   createServiceController.delet
-);
-
-prestadorRoute.get("/:provider_id/list", midlewareAuth, listController.create);
-
 export default prestadorRoute;

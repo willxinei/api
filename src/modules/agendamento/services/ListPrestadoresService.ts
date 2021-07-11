@@ -17,15 +17,17 @@ export default class ListPrestadoresService {
    ) {}
 
    public async execute({ user_id }: IRequest): Promise<Prestador[]> {
-      let users = await this.cacheProvider.recover<Prestador[]>(
-         `providers-list:${user_id}`
-      );
+      // let users = await this.cacheProvider.recover<Prestador[]>(
+      //    `providers-list:${user_id}`
+      // );
 
-      if (!users) {
-         users = await this.prestadorRepository.findTodosPrestador();
+      // if (!users) {
+      //    users = await this.prestadorRepository.findTodosPrestador();
 
-         await this.cacheProvider.save(`providers-list:${user_id},`, users);
-      }
+      //    await this.cacheProvider.save(`providers-list:${user_id},`, users);
+      // }
+
+      const users = await this.prestadorRepository.findTodosPrestador();
 
       return users;
    }
