@@ -8,13 +8,9 @@ export default class FindTodosPrestadoresController {
       try {
          const listHorarios = container.resolve(ListPrestadoresService);
 
-         const user_id = req.user.id;
+         const list = await listHorarios.execute();
 
-         const list = await listHorarios.execute({
-            user_id,
-         });
-
-         return res.json(classToClass(list));
+         return res.json(list);
       } catch (err) {
          return res.json(err.message).status(400);
       }

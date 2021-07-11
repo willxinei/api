@@ -16,7 +16,7 @@ export default class ListPrestadoresService {
       private cacheProvider: ICacheProvider
    ) {}
 
-   public async execute({ user_id }: IRequest): Promise<Prestador[]> {
+   public async execute(): Promise<Prestador[]> {
       // let users = await this.cacheProvider.recover<Prestador[]>(
       //    `providers-list:${user_id}`
       // );
