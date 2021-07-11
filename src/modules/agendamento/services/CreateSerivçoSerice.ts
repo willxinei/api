@@ -1,3 +1,4 @@
+import IPrestadorRepository from "@modules/prestador/repositories/IPrestadorRepository";
 import { Services } from "@prisma/client";
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
@@ -14,7 +15,10 @@ interface IRequest {
 export default class CreateServiçoService {
    constructor(
       @inject("ServiceRepository")
-      private serviceRepository: IServiceRepository
+      private serviceRepository: IServiceRepository,
+
+      @inject("PrestadorRepository")
+      private prestadorRepository: IPrestadorRepository
    ) {}
 
    public async execute({
@@ -29,6 +33,10 @@ export default class CreateServiçoService {
          service
       );
 
+      const pres = await this.prestadorRepository.findById(provider_id);
+
+      console.log(pres);
+
       if (ser) {
          throw new AppError("Serviço ja existe");
       }
@@ -40,6 +48,8 @@ export default class CreateServiçoService {
          time,
          value,
       });
+
+      console.log(serviço);
 
       return serviço;
    }

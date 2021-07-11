@@ -6,7 +6,7 @@ import serviceRoute from "./Service.routes";
 const RouteAgendamento = Router();
 
 RouteAgendamento.use("/agendamento", agendaRoute);
-RouteAgendamento.use("/", serviceRoute);
+RouteAgendamento.use("/service", serviceRoute);
 RouteAgendamento.use("/", bloqueioRoutes);
 
 export default RouteAgendamento;
