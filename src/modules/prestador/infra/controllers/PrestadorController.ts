@@ -80,9 +80,9 @@ export default class PrestadorController {
             prestador_id,
          });
 
-         return res.status(201).json(prestador);
+         return res.json(prestador);
       } catch (err) {
-         return res.status(200).json(err);
+         return res.status(400).json(err);
       }
    }
 }
