@@ -4,5 +4,5 @@ export interface IServiceDTO {
    service: string;
    description: string;
    time: string;
-   value: number;
+   value: string;
 }

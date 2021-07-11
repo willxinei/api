@@ -9,7 +9,7 @@ interface IRequest {
    service: string;
    description: string;
    time: string;
-   value: number;
+   value: string;
 }
 @injectable()
 export default class CreateServiçoService {
