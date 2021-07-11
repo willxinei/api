@@ -33,10 +33,14 @@ export default class CreateServiçoService {
          service
       );
 
+<<<<<<< HEAD
       const pres = await this.prestadorRepository.findById(provider_id);
 
       console.log(pres);
 
+=======
+      console.log(ser);
+>>>>>>> 0873be1e3db527e711a9faacac6e91fef06b25eb
       if (ser) {
          throw new AppError("Serviço ja existe");
       }

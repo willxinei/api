@@ -6,29 +6,33 @@ import { container } from "tsyringe";
 
 export default class PrestadorController {
    public async create(req: Request, res: Response): Promise<Response> {
-      const {
-         nome,
-         email,
-         telefone,
-         senha,
-         work_init,
-         work_and,
-         funcao,
-      } = req.body;
+      try {
+         const {
+            nome,
+            email,
+            telefone,
+            senha,
+            work_init,
+            work_and,
+            funcao,
+         } = req.body;
 
-      const create = container.resolve(CreatePrestadorService);
+         const create = container.resolve(CreatePrestadorService);
 
-      const prestador = await create.execute({
-         nome,
-         email,
-         telefone,
-         senha,
-         work_init,
-         work_and,
-         funcao,
-      });
+         const prestador = await create.execute({
+            nome,
+            email,
+            telefone,
+            senha,
+            work_init,
+            work_and,
+            funcao,
+         });
 
-      return res.json(prestador);
+         return res.json(prestador);
+      } catch (error) {
+         return res.json(error).status(400);
+      }
    }
 
    public async update(req: Request, res: Response): Promise<Response> {
@@ -76,9 +80,9 @@ export default class PrestadorController {
             prestador_id,
          });
 
-         return res.status(201).json(prestador);
+         return res.json(prestador);
       } catch (err) {
-         return res.status(200).json(err);
+         return res.status(400).json(err);
       }
    }
 }

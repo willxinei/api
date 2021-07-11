@@ -1,6 +1,7 @@
 import midlewareAuth from "@shared/infra/http/midleWares/midlewareAuth";
 import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
+
 import AgendamentoController from "../controllers/AgendamentoController";
 import FindTodosAgendamentos from "../controllers/FindTodosAgendamenosController";
 import FindTodosAgendamentosPrestadorController from "../controllers/FindTodosAgendamentoProviderController";
@@ -8,6 +9,9 @@ import FindTodosAgendamentosUserController from "../controllers/FindTodosAgendam
 import ListHorariosDisponivelController from "../controllers/ListHorariosDisponivelController";
 import FindTodosPrestadoreController from "../controllers/FindTodosPrestadoresController";
 import DeleteAgendamentoContrller from "../controllers/DeleteAgendamentoController";
+
+import CreateServiçoController from "../controllers/CreateServiçoController";
+import FindServicecontroller from "../controllers/FindServiceController";
 
 const agendaRoute = Router();
 
@@ -51,5 +55,27 @@ agendaRoute.get("/me/prestador/list", listTodosPrestadores.list);
 agendaRoute.get("/h/horarios", lisstHorariosControllr.list);
 
 agendaRoute.delete("/:id/agendamento", deleteAgendamentoControler.delet);
+
+const serviceRoute = Router();
+
+const createServiceController = new CreateServiçoController();
+const listController = new FindServicecontroller();
+
+// Create Serviço
+serviceRoute.post("/service", midlewareAuth, createServiceController.create);
+
+serviceRoute.patch(
+   "/service/update",
+   midlewareAuth,
+   createServiceController.update
+);
+
+serviceRoute.delete(
+   "/service/:id/delet",
+   midlewareAuth,
+   createServiceController.delet
+);
+
+serviceRoute.get("/:provider_id/list", midlewareAuth, listController.create);
 
 export default agendaRoute;
