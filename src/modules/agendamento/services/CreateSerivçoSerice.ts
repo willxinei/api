@@ -29,6 +29,7 @@ export default class CreateServiçoService {
          service
       );
 
+      console.log(ser);
       if (ser) {
          throw new AppError("Serviço ja existe");
       }
