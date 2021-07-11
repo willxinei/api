@@ -4,7 +4,6 @@ import IPrestadorRepository from "@modules/prestador/repositories/IPrestadorRepo
 import IUsersRepository from "@modules/users/repositories/IUsersRepository";
 import { Reservas } from "@prisma/client";
 import { inject, injectable } from "tsyringe";
-import { IAgendamentoRepository } from "../../agendamento/repositories/IAgendamentoRespository";
 
 interface IRequest {
    provider_id: string;

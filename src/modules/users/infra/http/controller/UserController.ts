@@ -1,4 +1,5 @@
 import CrateUserService from "@modules/users/services/CreateUserService";
+import FindUsuarioService from "@modules/users/services/FindUsuarioService";
 import ShowProfileService from "@modules/users/services/ShowProfleleService";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
@@ -25,6 +26,19 @@ export default class UserController {
       const list = container.resolve(ShowProfileService);
 
       const listUser = list.execute({ user_id });
+      return res.json(listUser);
+   }
+
+   public async findUser(req: Request, res: Response): Promise<Response> {
+      const { provider_id } = req.params;
+      const { nome } = req.body;
+
+      const list = container.resolve(FindUsuarioService);
+
+      const listUser = await list.execute({
+         nome,
+         provider_id,
+      });
       return res.json(listUser);
    }
 }
