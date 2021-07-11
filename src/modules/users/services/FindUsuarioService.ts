@@ -21,7 +21,7 @@ export default class FindUsuarioService {
       private userRepository: IUsersRepository
    ) {}
 
-   public async execute({ nome, provider_id }: IRequest): Promise<Users> {
+   public async execute({ nome, provider_id }: IRequest): Promise<Users[]> {
       const user = await this.userRepository.findByNome(nome);
 
       console.log(user);

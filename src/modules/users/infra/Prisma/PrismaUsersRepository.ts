@@ -38,8 +38,8 @@ export default class PrismaUsersRepository implements IUsersRepository {
       return user;
    }
 
-   public async findByNome(nome: string): Promise<Users | null> {
-      const user = await this.prisma.users.findFirst({
+   public async findByNome(nome: string): Promise<Users[]> {
+      const user = await this.prisma.users.findMany({
          where: {
             nome: {
                contains: nome,
