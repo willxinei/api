@@ -1,4 +1,4 @@
-import { Prestador } from "@prisma/client";
+import { Prestador, PrismaClient } from "@prisma/client";
 import IStorageProvider from "@shared/container/providers/StorageProvider/models/IStorageProviders";
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
@@ -11,6 +11,8 @@ interface IRequest {
 
 @injectable()
 export default class UpdateAvatarPrestadorService {
+   private prisma = new PrismaClient();
+
    constructor(
       @inject("PrestadorRepository")
       private prestadorRepository: IPrestadorRepository,
@@ -36,7 +38,14 @@ export default class UpdateAvatarPrestadorService {
 
       const fileName = await this.storageProvider.saveFile(avatarName);
 
-      prestador.avatar = fileName;
+      await this.prisma.prestador.update({
+         where: {
+            id: provider_id,
+         },
+         data: {
+            avatar: fileName,
+         },
+      });
 
       return prestador;
    }
