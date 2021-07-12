@@ -38,6 +38,8 @@ export default class UpdateAvatarPrestadorService {
 
       const fileName = await this.storageProvider.saveFile(avatarName);
 
+      prestador.avatar = fileName;
+
       await this.prisma.prestador.update({
          where: {
             id: provider_id,
