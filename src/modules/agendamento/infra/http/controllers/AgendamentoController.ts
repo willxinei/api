@@ -6,8 +6,15 @@ import { container } from "tsyringe";
 export default class AgendamentoController {
    public async create(req: Request, res: Response): Promise<Response> {
       try {
-         const { provider_id, from, service, dia, mes, ano } = req.body;
-         const user_id = req.user.id;
+         const {
+            user_id,
+            provider_id,
+            from,
+            service,
+            dia,
+            mes,
+            ano,
+         } = req.body;
 
          const createAgendamento = container.resolve(CreateAgendamentoService);
 
