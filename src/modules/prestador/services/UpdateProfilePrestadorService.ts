@@ -1,5 +1,5 @@
 import AppError from "@shared/errors/AppError";
-import { Prestador } from "@prisma/client";
+import { Prestador, PrismaClient } from "@prisma/client";
 import { inject, injectable } from "tsyringe";
 import IHashProvider from "@modules/users/providers/HashProvider/models/IHashProvider";
 import IPrestadorRepository from "../repositories/IPrestadorRepository";
@@ -17,6 +17,8 @@ interface IRequest {
 }
 @injectable()
 export default class UpdatePretadorService {
+   private prisma = new PrismaClient();
+
    constructor(
       private prestadorRepository: IPrestadorRepository,
 
@@ -70,6 +72,18 @@ export default class UpdatePretadorService {
 
          prestador.senha = await this.hashProvider.generateHah(senha);
       }
+
+      await this.prisma.prestador.update({
+         where: { id: prestador.id },
+         data: {
+            nome,
+            email,
+            telefone,
+            funcao,
+            work_init,
+            work_and,
+         },
+      });
 
       return prestador;
    }

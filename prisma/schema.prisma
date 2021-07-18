@@ -11,16 +11,16 @@ generator client {
 }
 
 model Agendamento {
-   id                String         @id      @default(uuid())
-   from              Int         
-   at                Int
-   dia               Int
-   mes               Int
-   ano               Int
-   service           String
-   created_at        DateTime       @default(now())
-   updated_at        DateTime       @default(now())
-   user_id           String
+   id                            String         @id      @default(uuid())
+   from                       Int         
+   at                            Int
+   dia                          Int
+   mes                        Int
+   ano                         Int
+   service                   String
+   created_at              DateTime       @default(now())
+   updated_at              DateTime       @default(now())
+   user_id           String                     
    provider_id       String
    user              Users?         @relation(fields: [user_id], references: [id])
    prestador         Prestador?     @relation(fields: [provider_id], references: [id])

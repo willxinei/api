@@ -7,8 +7,8 @@ export default class AgendamentoController {
    public async create(req: Request, res: Response): Promise<Response> {
       try {
          const {
-            user_id,
             provider_id,
+            user_id,
             from,
             service,
             dia,
@@ -33,7 +33,7 @@ export default class AgendamentoController {
 
          return res.json(agendamento);
       } catch (error) {
-         return res.json(error).status(400);
+         return res.json(error).status(200);
       }
    }
 }

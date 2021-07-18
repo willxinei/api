@@ -8,7 +8,7 @@ export default class AgendamentoRepository implements IAgendamentoRepository {
    private prisma = new PrismaClient();
 
    public async create(data: ICreateAgendamentoDTO): Promise<Agendamento> {
-      const agendamento = this.prisma.agendamento.create({
+      const agendamento = await this.prisma.agendamento.create({
          data: {
             provider_id: data.provider_id,
             user_id: data.user_id,

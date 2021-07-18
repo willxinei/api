@@ -21,7 +21,7 @@ CREATE TABLE "Users" (
     "nome" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "senha" TEXT NOT NULL,
-    "telefone" INTEGER NOT NULL,
+    "telefone" TEXT NOT NULL,
     "avatar" TEXT,
 
     PRIMARY KEY ("id")
@@ -32,7 +32,7 @@ CREATE TABLE "Prestador" (
     "id" TEXT NOT NULL,
     "nome" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "telefone" INTEGER NOT NULL,
+    "telefone" TEXT NOT NULL,
     "senha" TEXT NOT NULL,
     "avatar" TEXT,
     "work_init" TEXT NOT NULL,
@@ -40,7 +40,6 @@ CREATE TABLE "Prestador" (
     "funcao" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "agendamento_id" TEXT,
     "service_id" TEXT,
 
     PRIMARY KEY ("id")
@@ -65,7 +64,7 @@ CREATE TABLE "Services" (
     "service" VARCHAR NOT NULL,
     "description" VARCHAR NOT NULL,
     "time" VARCHAR NOT NULL,
-    "value" DECIMAL(4,2) NOT NULL,
+    "value" TEXT NOT NULL,
     "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
