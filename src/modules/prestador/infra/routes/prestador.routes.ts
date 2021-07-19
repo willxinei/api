@@ -48,22 +48,7 @@ prestadorRoute.post("/reserva", midlewareAuth, reservaController.create);
 prestadorRoute.post("/session", sessionController.create);
 prestadorRoute.post("/forgot", forgotController.create);
 
-prestadorRoute.put(
-   "/update",
-   celebrate({
-      [Segments.BODY]: {
-         nome: Joi.string().required(),
-         email: Joi.string().required(),
-         telefone: Joi.string().required(),
-         senha: Joi.string().required(),
-         work_init: Joi.string().required(),
-         work_and: Joi.string().required(),
-         funcao: Joi.string().required().min(6),
-      },
-   }),
-   midlewareAuth,
-   prestadorControler.update
-);
+prestadorRoute.put("/update", midlewareAuth, prestadorControler.update);
 
 prestadorRoute.patch(
    "/avatar",

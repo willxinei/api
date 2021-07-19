@@ -35,6 +35,8 @@ class UpdateProfileService {
    }: IRequest): Promise<Users> {
       const user = await this.userRepository.findById(user_id);
 
+      console.log(user);
+
       if (!user) {
          throw new AppError("Usuario nao existe");
       }

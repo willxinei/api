@@ -36,38 +36,34 @@ export default class PrestadorController {
    }
 
    public async update(req: Request, res: Response): Promise<Response> {
-      try {
-         const {
-            nome,
-            email,
-            telefone,
-            senha,
-            work_init,
-            work_and,
-            funcao,
-            old_senha,
-         } = req.body;
+      const {
+         nome,
+         email,
+         telefone,
+         senha,
+         work_init,
+         work_and,
+         funcao,
+         old_senha,
+      } = req.body;
 
-         const prestador_id = req.user.id;
+      const prestador_id = req.user.id;
 
-         const create = container.resolve(UpdateProfilePrestadorService);
+      const create = container.resolve(UpdateProfilePrestadorService);
 
-         const prestador = await create.execute({
-            prestador_id,
-            nome,
-            email,
-            telefone,
-            senha,
-            work_init,
-            work_and,
-            funcao,
-            old_senha,
-         });
+      const prestador = await create.execute({
+         prestador_id,
+         nome,
+         email,
+         telefone,
+         senha,
+         work_init,
+         work_and,
+         funcao,
+         old_senha,
+      });
 
-         return res.status(201).json(prestador);
-      } catch (err) {
-         return res.status(200).json(err);
-      }
+      return res.status(200).json(prestador);
    }
 
    public async show(req: Request, res: Response): Promise<Response> {
