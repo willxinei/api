@@ -20,6 +20,7 @@ export default class UpdatePretadorService {
    private prisma = new PrismaClient();
 
    constructor(
+      @inject("PrestadorRepository")
       private prestadorRepository: IPrestadorRepository,
 
       @inject("HashProvider")
@@ -45,7 +46,7 @@ export default class UpdatePretadorService {
 
       const prestadorMail = await this.prestadorRepository.findByMail(email);
 
-      if (prestadorMail) {
+      if (prestadorMail && prestadorMail.id !== prestador.id) {
          throw new AppError("email ja cadastrado");
       }
 

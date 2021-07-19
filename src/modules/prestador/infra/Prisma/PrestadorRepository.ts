@@ -21,7 +21,7 @@ export default class PrestadorRepository implements IPrestadorRepository {
       return prestador;
    }
 
-   public async findByMail(email: string): Promise<Prestador | null> {
+   public async findByMail(email?: string): Promise<Prestador | null> {
       const prestadorMail = await this.prisma.prestador.findUnique({
          where: { email },
          include: {
