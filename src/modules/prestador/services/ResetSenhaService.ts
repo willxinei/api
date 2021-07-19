@@ -4,6 +4,7 @@ import { isAfter, addHours } from "date-fns";
 import AppError from "@shared/errors/AppError";
 import IPrestadorRepository from "@modules/prestador/repositories/IPrestadorRepository";
 import { inject, injectable } from "tsyringe";
+import { PrismaClient } from "@prisma/client";
 import IPrestadorToken from "../repositories/IPrestadorToken";
 
 interface IRequest {
@@ -13,6 +14,8 @@ interface IRequest {
 
 @injectable()
 export default class ResetSenhaService {
+   private prisma = new PrismaClient();
+
    constructor(
       @inject("PrestadorRepository")
       private prestadorRepository: IPrestadorRepository,
@@ -32,7 +35,7 @@ export default class ResetSenhaService {
       }
 
       const prestador = await this.prestadorRepository.findById(
-         providerToken.id
+         providerToken.provider_id
       );
 
       if (!prestador) {
@@ -46,6 +49,13 @@ export default class ResetSenhaService {
          throw new AppError("Token expirado");
       }
 
-      prestador.senha = await this.hashProvider.generateHah(senha);
+      const hasg = await this.hashProvider.generateHah(senha);
+
+      await this.prisma.prestador.update({
+         where: { id: prestador.id },
+         data: {
+            senha: hasg,
+         },
+      });
    }
 }
