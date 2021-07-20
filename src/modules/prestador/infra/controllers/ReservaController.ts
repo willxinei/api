@@ -5,22 +5,17 @@ import { container } from "tsyringe";
 
 export default class ReservaController {
    public async create(req: Request, res: Response): Promise<Response> {
-      try {
-         const createService = container.resolve(ReservaDeHorariosService);
-         const { user_id, from, at, mes } = req.body;
-         const provider_id = req.user.id;
+      const createService = container.resolve(ReservaDeHorariosService);
+      const { from, at, mes } = req.body;
+      const provider_id = req.user.id;
 
-         const services = await createService.execute({
-            provider_id,
-            user_id,
-            from,
-            at,
-            mes,
-         });
+      const services = await createService.execute({
+         provider_id,
+         from,
+         at,
+         mes,
+      });
 
-         return res.json(services);
-      } catch (err) {
-         return res.json(err);
-      }
+      return res.json(services);
    }
 }

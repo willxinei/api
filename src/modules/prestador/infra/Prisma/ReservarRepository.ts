@@ -10,7 +10,6 @@ export default class ReservasRepository implements IReservarRepository {
       const res = await this.prisma.reservas.create({
          data: {
             provider_id: data.provider_id,
-            user_id: data.user_id,
             from: data.from,
             at: data.at,
             mes: data.mes,
