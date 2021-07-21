@@ -1,5 +1,4 @@
 import CreateAgendamentoService from "@modules/agendamento/services/CreateAgendamentoService";
-import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
@@ -29,7 +28,7 @@ export default class AgendamentoController {
             service,
          });
 
-         await req.io.emit("agenda");
+         await req.io.emit("hora", agendamento.from);
 
          return res.json(agendamento);
       } catch (error) {
