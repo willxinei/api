@@ -15,9 +15,21 @@
     },
     "plugins": [
         "@typescript-eslint",
-        "prettier"
+        "prettier",
+        "import-helpers"
     ],
     "rules": {
+      "import-helpers/order-imports": [
+         "warn",
+         {
+            "newlinesBetween": "always",
+            "groups": [
+               "module",
+               ["parent", "sibling", "index"]
+            ],
+            "alphabetize": { "order": "asc", "ignoreCase": true}
+         }
+      ],
        "no-useless-constructor": "off",
        "camelcase": "off",
        "class-methods-use-this": "off",

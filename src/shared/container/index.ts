@@ -1,7 +1,7 @@
-import IReservarRepository from "@modules/prestador/repositories/IReservaRepository";
-import IPrestadorRepository from "@modules/prestador/repositories/IPrestadorRepository";
 import { IAgendamentoRepository } from "@modules/agendamento/repositories/IAgendamentoRespository";
 import IServiceRepository from "@modules/agendamento/repositories/IServiceRepository";
+import IPrestadorRepository from "@modules/prestador/repositories/IPrestadorRepository";
+import IReservarRepository from "@modules/prestador/repositories/IReservaRepository";
 import IUsersRepository from "@modules/users/repositories/IUsersRepository";
 import { container } from "tsyringe";
 import "./providers";
@@ -18,9 +18,10 @@ import BloqueioRepository from "@modules/agendamento/infra/Prisma/BloqueioReposi
 import NotificationsRepository from "@modules/notifications/infra/Prisma/NotificatonRepository";
 import ReservasRepository from "@modules/prestador/infra/Prisma/ReservarRepository";
 import upload from "@config/upload";
-import IStorageProvider from "./providers/StorageProvider/models/IStorageProviders";
+
 import DiskStorageProvider from "./providers/StorageProvider/implementations/DiskStorageProvider";
 import S3StoreageProvider from "./providers/StorageProvider/implementations/S3Provider";
+import IStorageProvider from "./providers/StorageProvider/models/IStorageProviders";
 
 const providers = {
    disk: DiskStorageProvider,

@@ -28,7 +28,7 @@ export default class AgendamentoController {
             service,
          });
 
-         await req.io.emit("hora");
+         await req.io.emit("hora", agendamento);
 
          return res.json(agendamento);
       } catch (error) {

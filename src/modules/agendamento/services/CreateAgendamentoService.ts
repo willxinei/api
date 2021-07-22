@@ -1,13 +1,13 @@
-import { IPrestadorRepository } from "@modules/prestador/repositories/IPrestadorRepository";
 /* eslint-disable no-param-reassign */
 /* eslint-disable array-callback-return */
 import INotification from "@modules/notifications/repositories/INotificationsReposiotry";
-import IUsersRepository from "@modules/users/repositories/IUsersRepository";
+import IPrestadorRepository from "@modules/prestador/repositories/IPrestadorRepository";
 import { Agendamento } from "@prisma/client";
 import ICacheProvider from "@shared/container/providers/CashProvider/models/ICachProvider";
 import AppError from "@shared/errors/AppError";
 import { format, isBefore } from "date-fns";
 import { inject, injectable } from "tsyringe";
+
 import { IAgendamentoRepository } from "../repositories/IAgendamentoRespository";
 import IServiceRepository from "../repositories/IServiceRepository";
 

@@ -5,15 +5,16 @@ import "express-async-errors";
 // import "@shared/infra/typeorm";
 import "@shared/container";
 
-import express, { NextFunction, Request, Response } from "express";
-import cors from "cors";
-import { errors } from "celebrate";
-import AppError from "@shared/errors/AppError";
 import upload from "@config/upload";
-import socketio from "socket.io";
+import AppError from "@shared/errors/AppError";
+import { errors } from "celebrate";
+import cors from "cors";
+import express, { NextFunction, Request, Response } from "express";
 import http from "http";
-import Route from "./routes";
+import socketio from "socket.io";
+
 import rateLimiter from "./midleWares/rateLimit";
+import Route from "./routes";
 
 const app = express();
 const server = http.createServer(app);
@@ -22,7 +23,7 @@ const io = socketio(server);
 export const clients: Array<any> = [];
 
 io.on("connection", (client: any) => {
-   console.log(`ttttes ${client.id}`);
+   console.log(`conectado ${client.id}`);
 });
 
 app.use((req, res, nex) => {

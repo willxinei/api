@@ -1,10 +1,10 @@
-import AppError from "@shared/errors/AppError";
+import auth from "@config/auth";
 import IPrestadorRepository from "@modules/prestador/repositories/IPrestadorRepository";
 import { Prestador } from "@prisma/client";
-import { inject, injectable } from "tsyringe";
+import AppError from "@shared/errors/AppError";
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import auth from "@config/auth";
+import { inject, injectable } from "tsyringe";
 
 interface IRequest {
    email: string;

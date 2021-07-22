@@ -3,6 +3,7 @@ import { Prestador } from "@prisma/client";
 import AppError from "@shared/errors/AppError";
 import { hash } from "bcryptjs";
 import { inject, injectable } from "tsyringe";
+
 import IPrestadorDTO from "../dtos/IPrestadorDTO";
 
 @injectable()
