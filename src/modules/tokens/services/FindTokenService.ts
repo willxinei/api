@@ -19,13 +19,7 @@ export class FindtokenService {
       private prestadorRepository: IPrestadorRepository
    ) {}
 
-   public async execute({ prestador_id }: Request): Promise<Tokens | null> {
-      const find = await this.prestadorRepository.findById(prestador_id);
-
-      if (!find) {
-         throw new AppError("Prestador nao encontrado");
-      }
-
+   public async execute({ prestador_id }: Request): Promise<Tokens[] | null> {
       const token = await this.tokenRepository.findByid(prestador_id);
 
       return token;

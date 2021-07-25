@@ -4,5 +4,5 @@ import { ITokensDTO } from "../DTOs/ITokensDTO";
 
 export interface ITokenRepository {
    create(data: ITokensDTO): Promise<Tokens>;
-   findByid(prestador: string): Promise<Tokens | null>;
+   findByid(prestador: string): Promise<Tokens[]>;
 }
