@@ -8,5 +8,6 @@ const route = Router();
 const controller = new TokenController();
 
 route.post("/", midlewareAuth, controller.creaet);
+route.get("/list", midlewareAuth, controller.find);
 
 export { route };

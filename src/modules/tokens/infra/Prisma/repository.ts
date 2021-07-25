@@ -17,4 +17,14 @@ export class TokenRepository implements ITokenRepository {
 
       return create;
    }
+
+   public async findByid(prestador_id: string): Promise<Tokens | null> {
+      const find = await this.prisma.tokens.findFirst({
+         where: {
+            prestador_id,
+         },
+      });
+
+      return find;
+   }
 }
