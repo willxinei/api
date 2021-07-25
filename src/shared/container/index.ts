@@ -18,6 +18,8 @@ import BloqueioRepository from "@modules/agendamento/infra/Prisma/BloqueioReposi
 import NotificationsRepository from "@modules/notifications/infra/Prisma/NotificatonRepository";
 import ReservasRepository from "@modules/prestador/infra/Prisma/ReservarRepository";
 import upload from "@config/upload";
+import { ITokenRepository } from "@modules/tokens/repositories/ITokenRepository";
+import { TokenRepository } from "@modules/tokens/infra/Prisma/repository";
 
 import DiskStorageProvider from "./providers/StorageProvider/implementations/DiskStorageProvider";
 import S3StoreageProvider from "./providers/StorageProvider/implementations/S3Provider";
@@ -71,4 +73,9 @@ container.registerSingleton<IUserTokenRepository>(
 container.registerSingleton<INotification>(
    "NotificationRepository",
    NotificationsRepository
+);
+
+container.registerSingleton<ITokenRepository>(
+   "TokenRepository",
+   TokenRepository
 );
