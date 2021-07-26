@@ -2,6 +2,7 @@ import { PrismaClient, Services } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime";
 import AppError from "@shared/errors/AppError";
 import { inject, injectable } from "tsyringe";
+
 import IServiceRepository from "../repositories/IServiceRepository";
 
 interface IRequest {
@@ -10,7 +11,7 @@ interface IRequest {
    service: string;
    description: string;
    time: string;
-   value: Decimal;
+   value: string;
 }
 @injectable()
 export default class UpdateServices {
@@ -40,7 +41,7 @@ export default class UpdateServices {
       ser.description = description;
 
       await this.prisma.services.update({
-         where: { id },
+         where: { id: ser.id },
          data: {
             service,
             time,

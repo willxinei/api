@@ -34,7 +34,7 @@ model Users {
    telefone          String                  
    avatar            String?         
    agendamento       Agendamento[]
-   token             Tokens[]
+   token             String?
 }
 
 model Prestador {
@@ -49,10 +49,9 @@ model Prestador {
    funcao            String
    created_at        DateTime       @default(now())
    updated_at        DateTime       @default(now())
-   service_id        String?        
    agendamento       Agendamento[]
    services          Services[]
-   token             Tokens[]
+   token             String?
 }
 
 model notification {
@@ -111,13 +110,3 @@ model Reservas {
    mes               Int
 }
 
-model Tokens {
-   id                String         @id            @default(uuid())
-   token             String
-   user_id           String?         
-   prestador_id      String?         @default(uuid())
-   created_at        DateTime       @default(now())   @db.Timestamp()
-   updateed_at       DateTime       @default(now())   @db.Timestamp()
-   user              Users?         @relation(fields: [user_id], references: [id])
-   prestador         Prestador?         @relation(fields: [prestador_id], references: [id])
-}

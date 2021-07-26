@@ -25,23 +25,19 @@ export default class CreateServiçoController {
    }
 
    public async update(req: Request, res: Response): Promise<Response> {
-      try {
-         const updateService = container.resolve(UpdateServices);
-         const { id, service, description, time, value } = req.body;
-         const provider_id = req.user.id;
-         const services = await updateService.execute({
-            id,
-            provider_id,
-            service,
-            description,
-            time,
-            value,
-         });
+      const updateService = container.resolve(UpdateServices);
+      const { id, service, description, time, value } = req.body;
+      const provider_id = req.user.id;
+      const services = await updateService.execute({
+         id,
+         provider_id,
+         service,
+         description,
+         time,
+         value,
+      });
 
-         return res.json(services);
-      } catch (err) {
-         return res.json(err).status(400);
-      }
+      return res.json(services);
    }
 
    public async delet(re: Request, res: Response): Promise<Response> {

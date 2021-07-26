@@ -6,8 +6,8 @@ import IReservarRepository from "@modules/prestador/repositories/IReservaReposit
 import AppError from "@shared/errors/AppError";
 import { isAfter, getMinutes, format, toDate } from "date-fns";
 import ptBR from "date-fns/esm/locale/pt-BR/index.js";
-
 import { inject, injectable } from "tsyringe";
+
 import { IAgendamentoRepository } from "../repositories/IAgendamentoRespository";
 import IBloqueioRepository from "../repositories/IBloqueioRepository";
 import IServiceRepository from "../repositories/IServiceRepository";

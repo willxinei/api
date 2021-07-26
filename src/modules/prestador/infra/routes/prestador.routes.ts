@@ -3,9 +3,9 @@ import CreateServiçoController from "@modules/agendamento/infra/http/controller
 import FindServiceController from "@modules/agendamento/infra/http/controllers/FindServiceController";
 import midlewareAuth from "@shared/infra/http/midleWares/midlewareAuth";
 import { Joi, Segments, celebrate } from "celebrate";
-
 import { Router } from "express";
 import multer from "multer";
+
 import PrestadorController from "../controllers/PrestadorController";
 import ReservaController from "../controllers/ReservaController";
 import ForgotPasswordController from "../controllers/SendMailPrestadorController";
@@ -49,6 +49,11 @@ prestadorRoute.post("/session", sessionController.create);
 prestadorRoute.post("/forgot", forgotController.create);
 
 prestadorRoute.put("/update", midlewareAuth, prestadorControler.update);
+prestadorRoute.put(
+   "/updateToken",
+   midlewareAuth,
+   prestadorControler.updateToken
+);
 
 prestadorRoute.patch(
    "/avatar",

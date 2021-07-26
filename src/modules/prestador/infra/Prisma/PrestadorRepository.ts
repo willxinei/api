@@ -36,7 +36,7 @@ export default class PrestadorRepository implements IPrestadorRepository {
    public async findById(id: string): Promise<Prestador | null> {
       const prestadorId = await this.prisma.prestador.findUnique({
          where: { id },
-         include: { services: true, agendamento: true },
+         // include: { services: true, agendamento: true },
       });
 
       return prestadorId;
