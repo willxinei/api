@@ -2,7 +2,6 @@ import auth from "@config/auth";
 import AppError from "@shared/errors/AppError";
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
-import { NumericLiteral } from "typescript";
 
 interface ITokenPayload {
    iat: number;
@@ -10,6 +9,7 @@ interface ITokenPayload {
    sub: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function midlewareAuth(
    req: Request,
    res: Response,

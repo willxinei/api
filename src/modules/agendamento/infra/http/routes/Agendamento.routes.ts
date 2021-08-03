@@ -3,15 +3,14 @@ import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
 
 import AgendamentoController from "../controllers/AgendamentoController";
+import CreateServiçoController from "../controllers/CreateServiçoController";
+import DeleteAgendamentoContrller from "../controllers/DeleteAgendamentoController";
+import FindServicecontroller from "../controllers/FindServiceController";
 import FindTodosAgendamentos from "../controllers/FindTodosAgendamenosController";
 import FindTodosAgendamentosPrestadorController from "../controllers/FindTodosAgendamentoProviderController";
 import FindTodosAgendamentosUserController from "../controllers/FindTodosAgendamentoUsersController";
-import ListHorariosDisponivelController from "../controllers/ListHorariosDisponivelController";
 import FindTodosPrestadoreController from "../controllers/FindTodosPrestadoresController";
-import DeleteAgendamentoContrller from "../controllers/DeleteAgendamentoController";
-
-import CreateServiçoController from "../controllers/CreateServiçoController";
-import FindServicecontroller from "../controllers/FindServiceController";
+import ListHorariosDisponivelController from "../controllers/ListHorariosDisponivelController";
 
 const agendaRoute = Router();
 

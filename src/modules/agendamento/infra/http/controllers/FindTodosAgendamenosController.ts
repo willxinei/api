@@ -8,7 +8,7 @@ export default class FindTodosAgendamenosController {
          const agenda = container.resolve(FindTodosAgendamentos);
          const user_id = req.user.id;
 
-         const ag = await agenda.execute(user_id);
+         const ag = await agenda.execute();
          return res.json(ag);
       } catch (err) {
          return res.json(err.message).status(400);
