@@ -20,7 +20,14 @@ interface IRequest {
    ano: number;
 }
 
-type Ihorarios = Array<{}>;
+interface Ihorarios {
+   horarios: [
+      {
+         avaliable: boolean;
+         hour: string | boolean;
+      }
+   ];
+}
 
 @injectable()
 export default class ListHorarioDiponilvelService {
@@ -56,18 +63,6 @@ export default class ListHorarioDiponilvelService {
          return timeInMinutes;
       }
 
-      function rangeHorario(start: number, stop: number) {
-         stop = stop === undefined ? start : stop;
-         start = stop === start ? 1 : start;
-
-         const length = stop - start + 1;
-
-         const mapFn = (_: number, i: number) => start + i;
-
-         const hor = Array.from({ length }, mapFn);
-         return hor;
-      }
-
       const findSercies = await this.serviceRepository.findUniqService(
          provider_id,
          service
@@ -92,7 +87,7 @@ export default class ListHorarioDiponilvelService {
          provider_id
       );
 
-      const horaStartAgenda = appointments
+      const inicioDoHorarioMarcado = appointments
          .map((h) => {
             return h.from;
          })
@@ -100,75 +95,128 @@ export default class ListHorarioDiponilvelService {
             return a - b;
          });
 
-      const horafim = appointments
+      const fimDoHorarioMarcado = appointments
          .map((h) => {
             // const horaReduzida = convertHours(h.at);
 
-            return h.at;
+            return h.at + 1;
          })
          .sort((a, b) => {
             return a - b;
          });
 
-      const inicioLeng = horaStartAgenda.length - 1;
+      const inicioLeng = inicioDoHorarioMarcado.length - 1;
+
+      function rangeHorario(start: number, stop: number) {
+         stop = stop === undefined ? start : stop;
+         start = stop === start ? tempoServico : start;
+
+         const length = stop - start + 1;
+
+         const mapFn = (h: number, i: number) => start + i;
+
+         const hor = Array.from({ length }, mapFn);
+         return hor;
+      }
 
       if (findSercies.service === service) {
          const hora: number[] = [];
 
-         let indice = -1;
-         while (indice < inicioLeng) {
-            indice += 1;
-            const inicio = horaStartAgenda[indice + 1] + 1;
-            let fim = horafim[indice];
-            while (fim < inicio) {
-               fim += 1;
-               if (fim + tempoServico < inicio) {
-                  hora.push(fim);
-               }
+         const tempoInicialDaJornada = convertHours(findWork.work_init);
+         const tempoFinallDaJornada = convertHours(findWork.work_and);
+
+         if (!inicioDoHorarioMarcado[0]) {
+            let i = tempoInicialDaJornada - 60;
+            while (i < tempoFinallDaJornada) {
+               i += tempoServico;
+               horarios.push(i);
+               console.log(i);
             }
          }
 
-         const tempoWorkStart = convertHours(findWork.work_init);
-         const tempoWorkStop = convertHours(findWork.work_and);
+         const inicio = inicioDoHorarioMarcado.slice(1);
+         const fim = fimDoHorarioMarcado.slice(
+            0,
+            fimDoHorarioMarcado.length - 1
+         );
 
-         let indCont = -tempoServico;
-         while (indCont < hora[hora.length - 1]) {
-            indCont += tempoServico;
-            if (hora[indCont] !== undefined) {
-               horarios.push(hora[indCont]);
+         inicio.map((h, i) => {
+            // rangeHorario(fimDoHorarioMarcado[i], h).map((p) => hora.push(p));
+            let f = fim[i] - tempoServico;
+            console.log(f);
+            while (f < h) {
+               f += tempoServico;
+               hora.push(f);
             }
-         }
+         });
 
-         if (horaStartAgenda[0] === undefined) {
-            let conte = tempoWorkStart - tempoServico;
-            while (conte < tempoWorkStop) {
-               conte += tempoServico;
-               horarios.push(conte);
+         hora.filter((h) => {
+            const find = inicioDoHorarioMarcado.find((p) => {
+               return h === p;
+            });
+
+            if (h !== find) {
+               horarios.push(h);
             }
-         }
+         });
 
-         if (horaStartAgenda[0] > tempoWorkStart) {
-            let con = tempoWorkStart - tempoServico;
+         // let indice = -1;
+         // while (indice < inicioLeng) {
+         //    indice += 1;
+         //    const inicio = inicioDoHorarioMarcado[indice + 1] + 1;
+         //    let fim = fimDoHorarioMarcado[indice];
+         //    while (fim < inicio) {
+         //       fim += 1;
+         //       if (fim + tempoServico < inicio) {
+         //          hora.push(fim);
+         //       }
+         //    }
+         // }
+
+         // const tempoWorkStart = convertHours(findWork.work_init);
+         // const tempoWorkStop = convertHours(findWork.work_and);
+
+         // let indCont = -tempoServico;
+         // while (indCont < hora[hora.length - 1]) {
+         //    indCont += tempoServico;
+         //    if (hora[indCont] !== undefined) {
+         //       horarios.push(hora[indCont]);
+         //    }
+         // }
+
+         // if (inicioDoHorarioMarcado[0] === undefined) {
+         //    let conte = tempoWorkStart - tempoServico;
+         //    while (conte < tempoWorkStop) {
+         //       conte += tempoServico;
+         //       horarios.push(conte);
+         //    }
+         // }
+
+         if (inicioDoHorarioMarcado[0] > tempoInicialDaJornada) {
+            let con = tempoInicialDaJornada - tempoServico;
             const or: number[] = [];
-            const horaMI = horaStartAgenda[0] - tempoServico;
+            const horaMI = inicioDoHorarioMarcado[0] - tempoServico;
             while (con < horaMI) {
                con += tempoServico;
                or.push(con);
             }
             or.filter((h) => {
-               if (h + time < horaStartAgenda[0]) {
+               if (h + time < inicioDoHorarioMarcado[0]) {
                   horarios.push(h);
                }
             });
          }
 
-         let hormin = horafim[horafim.length - 1] + 1 - tempoServico;
-         for (hormin; hormin < tempoWorkStop; ) {
+         let hormin =
+            fimDoHorarioMarcado[fimDoHorarioMarcado.length - 1] - tempoServico;
+         for (hormin; hormin < tempoFinallDaJornada; ) {
             hormin += tempoServico;
-            if (hormin <= tempoWorkStop) {
+            if (hormin <= tempoFinallDaJornada) {
                horarios.push(hormin);
             }
          }
+
+         console.log(hora, inicioDoHorarioMarcado, horarios);
       }
 
       horarios.sort((a, b) => {
@@ -182,7 +230,6 @@ export default class ListHorarioDiponilvelService {
       );
 
       const findReservas = await this.reservaRepository.findById(mes);
-      console.log(findReservas);
 
       const startReserva = findReservas
          .map((h) => convertHours(h.from))
