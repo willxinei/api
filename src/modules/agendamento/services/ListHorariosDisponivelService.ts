@@ -21,12 +21,8 @@ interface IRequest {
 }
 
 interface Ihorarios {
-   horarios: [
-      {
-         avaliable: boolean;
-         hour: string | boolean;
-      }
-   ];
+   hour: string;
+   avaliable: boolean | string;
 }
 
 @injectable()
@@ -54,7 +50,7 @@ export default class ListHorarioDiponilvelService {
       dia,
       mes,
       ano,
-   }: IRequest): Promise<Ihorarios> {
+   }: IRequest): Promise<Ihorarios[]> {
       const horarios: number[] = [];
 
       function convertHours(time: string) {
@@ -126,11 +122,10 @@ export default class ListHorarioDiponilvelService {
          const tempoFinallDaJornada = convertHours(findWork.work_and);
 
          if (!inicioDoHorarioMarcado[0]) {
-            let i = tempoInicialDaJornada - 60;
+            let i = tempoInicialDaJornada - tempoServico;
             while (i < tempoFinallDaJornada) {
                i += tempoServico;
                horarios.push(i);
-               console.log(i);
             }
          }
 
@@ -141,9 +136,7 @@ export default class ListHorarioDiponilvelService {
          );
 
          inicio.map((h, i) => {
-            // rangeHorario(fimDoHorarioMarcado[i], h).map((p) => hora.push(p));
             let f = fim[i] - tempoServico;
-            console.log(f);
             while (f < h) {
                f += tempoServico;
                hora.push(f);
@@ -194,6 +187,7 @@ export default class ListHorarioDiponilvelService {
 
          if (inicioDoHorarioMarcado[0] > tempoInicialDaJornada) {
             let con = tempoInicialDaJornada - tempoServico;
+            console.log(time);
             const or: number[] = [];
             const horaMI = inicioDoHorarioMarcado[0] - tempoServico;
             while (con < horaMI) {
@@ -216,7 +210,7 @@ export default class ListHorarioDiponilvelService {
             }
          }
 
-         console.log(hora, inicioDoHorarioMarcado, horarios);
+         // console.log(time, tempoServico);
       }
 
       horarios.sort((a, b) => {
